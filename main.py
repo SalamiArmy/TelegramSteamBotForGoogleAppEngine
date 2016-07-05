@@ -1,5 +1,4 @@
 import ConfigParser
-import importlib
 import json
 import logging
 import unittest
@@ -15,8 +14,6 @@ from google.appengine.api import urlfetch
 from google.appengine.ext import ndb
 
 import webapp2
-
-import vocabs
 
 BASE_URL = 'https://api.telegram.org/bot'
 
@@ -97,12 +94,13 @@ class WebhookHandler(webapp2.RequestHandler):
                 logging.info('no text')
                 return
 
-            if text.startswith('/'):
+            if text.startswith('/game '):
                 split = text[1:].lower().split(" ", 1)
-                try:
-                    getgame.run(bot, chat_id, user, split[1] if len(split) > 1 else '')
-                except:
-                    print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+                if len(split) > 1:
+                    try:
+                        getgame.run(bot, chat_id, user, split[1])
+                    except:
+                        print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
 
 
 class RunTestsHandler(webapp2.RequestHandler):
