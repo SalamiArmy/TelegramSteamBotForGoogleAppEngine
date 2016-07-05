@@ -94,7 +94,7 @@ class WebhookHandler(webapp2.RequestHandler):
                 logging.info('no text')
                 return
 
-            if text.startswith('/game '):
+            if text.startswith('/game ') or text.startswith('/getgame '):
                 split = text[1:].lower().split(" ", 1)
                 if len(split) > 1:
                     try:
