@@ -5,7 +5,7 @@ import urllib2
 from bs4 import BeautifulSoup
 
 
-def run(bot, keyConfig, chat_id, user, message):
+def run(bot, chat_id, user, message):
     requestText = message.replace(bot.name, '').strip()
 
     code = urllib.urlopen('http://store.steampowered.com/search/?term=' + requestText).read()

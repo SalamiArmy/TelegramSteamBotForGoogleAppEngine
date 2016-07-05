@@ -8,6 +8,7 @@ import sys
 
 import urllib2
 import telegram
+import commands.getgame as getgame
 
 # standard app engine imports
 from google.appengine.api import urlfetch
@@ -97,12 +98,11 @@ class WebhookHandler(webapp2.RequestHandler):
                 return
 
             if text.startswith('/'):
-				split = text[1:].lower().split(" ", 1)
-				try:
-					import commands.getgame
-					getgame.run(bot, keyConfig, chat_id, fr_username, split[1] if len(split) > 1 else '')
-				except:
-					print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+                split = text[1:].lower().split(" ", 1)
+                try:
+                    getgame.run(bot, chat_id, user, split[1] if len(split) > 1 else '')
+                except:
+                    print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
 
 
 class RunTestsHandler(webapp2.RequestHandler):
@@ -111,8 +111,8 @@ class RunTestsHandler(webapp2.RequestHandler):
         suite = unittest.TestSuite()
 
         formattedResultText = ''
-		getTest = unittest.defaultTestLoader.loadTestsFromName('tests.test_getgame')
-		suite.addTest(getTest)
+        getTest = unittest.defaultTestLoader.loadTestsFromName('tests.test_getgame')
+        suite.addTest(getTest)
 
         formattedResultText += str(unittest.TextTestRunner().run(suite))\
             .replace('<unittest.runner.TextTestResult ', '')\
@@ -132,9 +132,11 @@ class WebCommandRunHandler(webapp2.RequestHandler):
             chat_id = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
         if text.startswith('/'):
-            WebhookHandler.TryExecuteExplicitCommand(chat_id, "Admin", text)
-        else:
-            WebhookHandler.TryParseIntent(chat_id, "Admin", text)
+            split = text[1:].lower().split(" ", 1)
+            try:
+                getgame.run(bot, chat_id, 'Admin', split[1] if len(split) > 1 else '')
+            except:
+                print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
 
 app = webapp2.WSGIApplication([
     ('/me', MeHandler),
