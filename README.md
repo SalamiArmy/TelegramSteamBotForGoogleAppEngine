@@ -1,5 +1,7 @@
 #Telegram Steam Bot for Google App Engine
+This is a message bot for Telegram which is supposed to be hosted on Google App Engine for free.
 
+##Setup Google Apps Project
 Go to https://console.developers.google.com and create a Google App Engine project. Then take that project id (it might be two random words and a number eg. gorilla-something-374635 but I think they changed that) and your Telegram Bot ID which the Bot Father gave you and do the following:
 
 1. Copy app.yaml.template and rename the copy to to app.yaml.
@@ -7,6 +9,7 @@ Go to https://console.developers.google.com and create a Google App Engine proje
 3. Copy keys.ini.template and rename the copy to keys.ini.
 4. Update {Your Telegram Bot ID here} in keys.ini
 
+##Build Telegram Bot (Do this on the CI server)
 ```bash
 git clone (url for your TelegramSteamBotForGoogleAppEngine fork) ~/bot
 cd ~/bot

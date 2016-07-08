@@ -16,7 +16,7 @@ def run(bot, chat_id, user, message):
         bypassAgeGate.addheaders.append(('Cookie', 'birthtime=578390401'))
         code = bypassAgeGate.open(steamGameLink).read()
         gameResults = steam_game_parser(code, steamGameLink)
-        bot.sendMessage(chat_id=chat_id, text=gameResults,
+        bot.sendMessage(chat_id=chat_id, text=gameResults.replace(':',''),
                         disable_web_page_preview=True, parse_mode='Markdown')
         return True
     else:
