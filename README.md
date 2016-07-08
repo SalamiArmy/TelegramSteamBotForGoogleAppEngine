@@ -1,13 +1,13 @@
 #Telegram Steam Bot for Google App Engine
-This is a message bot for Telegram which is supposed to be hosted on Google App Engine for free.
+This is a message bot for Telegram which is supposed to be hosted on Google App Engine for free. It responds to just two commands which both do the same thing. /game and /getgame both search Steam and responds with a concise formatted version of the Steam store page of the top result.
 
 ##Setup Google Apps Project
-Go to https://console.developers.google.com and create a Google App Engine project. Then take that project id (it might be two random words and a number eg. gorilla-something-374635 but I think they changed that) and your Telegram Bot ID which the Bot Father gave you and do the following:
-
-1. Copy app.yaml.template and rename the copy to to app.yaml.
-2. Update {GOOGLE APP ENGINE PROJECT ID} in app.yaml.
-3. Copy keys.ini.template and rename the copy to keys.ini.
-4. Update {Your Telegram Bot ID here} in keys.ini
+1. Go to https://console.developers.google.com and create a new Google App Engine project. Then take that project id (it might be two random words and a number eg. gorilla-something-374635 but I think they changed that)
+2. Then ask the BotFather (on the dayy of his daughter's wedding) for a new bot ID
+3. Copy app.yaml.template and rename the copy to to app.yaml.
+4. Update {GOOGLE APP ENGINE PROJECT ID} in app.yaml.
+5. Copy keys.ini.template and rename the copy to keys.ini.
+6. Update {Your Telegram Bot ID here} in keys.ini
 
 ##Build Telegram Bot (Do this on the CI server)
 ```bash
