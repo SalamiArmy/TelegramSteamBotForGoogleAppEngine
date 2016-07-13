@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 def run(bot, chat_id, user, message):
     requestText = message.replace(bot.name, '').strip()
 
-    code = urllib.urlopen('http://store.steampowered.com/search/?term=' + requestText).read()
+    code = urllib.urlopen('http://store.steampowered.com/search/?category1=998&term=' + requestText).read()
     appId = steam_results_parser(code)
     if appId:
         steamGameLink = 'http://store.steampowered.com/app/' + appId
@@ -17,7 +17,7 @@ def run(bot, chat_id, user, message):
         code = bypassAgeGate.open(steamGameLink).read()
         gameResults = steam_game_parser(code, steamGameLink)
         bot.sendMessage(chat_id=chat_id, text=gameResults,
-                        disable_web_page_preview=True)
+                        disable_web_page_preview=True, parse_mode='Markdown')
         return True
     else:
         bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
