@@ -14,7 +14,6 @@ def run(bot, keyConfig, chat_id, user):
                                      window='day')
     if len(items) > 0:
         bot.sendChatAction(chat_id=chat_id, action=telegram.ChatAction.UPLOAD_PHOTO)
-        bot.sendDocument(chat_id=chat_id,
-                         filename='toppcmrtoday',
-                         document=items[0].link)
+        bot.sendPhoto(chat_id=chat_id,
+                      photo=items[0].link.encode('utf-8'))
         return True

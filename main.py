@@ -101,6 +101,11 @@ class WebhookHandler(webapp2.RequestHandler):
                         getgame.run(bot, chat_id, user, split[1])
                     except:
                         print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+            elif text == '/getimgur':
+                try:
+                    getimgur.run(bot, keyConfig, chat_id, user)
+                except:
+                    print("Unexpected error running igmur command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
 
 
 class RunTestsHandler(webapp2.RequestHandler):
@@ -129,12 +134,17 @@ class WebCommandRunHandler(webapp2.RequestHandler):
         if not chat_id:
             chat_id = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        if text.startswith('/'):
+        if text.startswith('/game ') or text.startswith('/getgame '):
             split = text[1:].lower().split(" ", 1)
             try:
                 getgame.run(bot, chat_id, 'Admin', split[1] if len(split) > 1 else '')
             except:
                 print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+        elif text == '/getimgur':
+            try:
+                getimgur.run(bot, keyConfig, chat_id, user)
+            except:
+                print("Unexpected error running igmur command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
 
 app = webapp2.WSGIApplication([
     ('/me', MeHandler),
