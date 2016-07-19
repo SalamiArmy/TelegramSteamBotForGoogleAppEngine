@@ -47,12 +47,12 @@ class TestGetGame(unittest.TestCase):
 
         getgame.run(bot, chatId, 'Admin', requestText)
 
-    def test_getgame_with_furi(self):
-        requestText = 'furi'
+    def test_getgame_with_rawdata(self):
+        requestText = 'raw data'
 
         keyConfig = ConfigParser.ConfigParser()
         keyConfig.read(["keys.ini", "..\keys.ini"])
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, chatId, 'Admin', requestText)
+        getgame.run(bot, '-1001068915556L', 'Admin', requestText)
