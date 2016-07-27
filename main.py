@@ -8,6 +8,7 @@ import sys
 import urllib2
 import telegram
 import commands.getgame as getgame
+import commands.getimgur as getimgur
 
 # standard app engine imports
 from google.appengine.api import urlfetch
