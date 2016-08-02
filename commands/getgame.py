@@ -49,18 +49,23 @@ def steam_game_parser(code, link):
     priceDiv = soup.find('div', attrs={'class':'game_purchase_price price'})
     if priceDiv:
         gamePrice = priceDiv.string
-        AllGameDetailsFormatted += ' - ' + gamePrice.strip() + '*\n'
+        AllGameDetailsFormatted += ' - ' + gamePrice.strip()
     else:
         priceDiv = soup.find('div', attrs={'class':'discount_final_price'})
         if priceDiv:
             gamePrice = priceDiv.string
-            AllGameDetailsFormatted += ' - ' + gamePrice.strip() + '*\n'
+            AllGameDetailsFormatted += ' - ' + gamePrice.strip()
+            discountPercentageDiv = soup.find('div', attrs={'class':'discount_pct'})
+            if discountPercentageDiv:
+                percentageDiscountedBy = discountPercentageDiv.string
+                AllGameDetailsFormatted += ' (at ' + percentageDiscountedBy.strip() + ' off)'
         else:
-            AllGameDetailsFormatted += ' - Free to Play*\n'
+            AllGameDetailsFormatted += ' - Free to Play'
+    AllGameDetailsFormatted += '*\n'
 
     descriptionDiv = soup.find('div', attrs={'class':'game_description_snippet'})
     if descriptionDiv:
-        descriptionSnippet = descriptionDiv.string.replace('\r', '').replace('\n', '').replace('\t', '')
+        descriptionSnippet = descriptionDiv.string.replace('\r', '').replace('\n', '').replace('\t', '').replace('_', ' ')
         AllGameDetailsFormatted += descriptionSnippet + '\n'
 
     if AllGameDetailsFormatted:

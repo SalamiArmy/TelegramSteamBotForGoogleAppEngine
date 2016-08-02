@@ -55,7 +55,7 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, '-1001068915556L', 'Admin', requestText)
+        getgame.run(bot, chatId, 'Admin', requestText)
 
     def test_getgame_with_wehappyfew(self):
         requestText = 'we happy few'
@@ -65,4 +65,4 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, '-1001068915556L', 'Admin', requestText)
+        getgame.run(bot, chatId, 'Admin', requestText)
