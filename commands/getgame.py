@@ -7,9 +7,21 @@ from bs4 import BeautifulSoup
 
 def run(bot, chat_id, user, message):
     requestText = message.replace(bot.name, '').strip()
+    if requestText == '':
+        rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?category1=998&term=#').read()
+        totalGames = steam_all_results_parser(rawMarkup)
+        if totalGames != '':
+            bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
+                                                  ', there are ' + totalGames + ' total games on steam. Pick one.')
+            return True
 
-    code = urllib.urlopen('http://store.steampowered.com/search/?category1=998&term=' + requestText).read()
-    appId = steam_results_parser(code)
+    retryCount = 3
+    appId = ''
+    while retryCount > 0 and appId != '':
+        retryCount -= 1
+        rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?category1=998&term=' + requestText).read()
+        appId = steam_results_parser(rawMarkup)
+
     if appId:
         steamGameLink = 'http://store.steampowered.com/app/' + appId
         bypassAgeGate = urllib2.build_opener()
@@ -25,8 +37,8 @@ def run(bot, chat_id, user, message):
                                               requestText.encode('utf-8'))
 
 
-def steam_results_parser(code):
-    soup = BeautifulSoup(code, 'html.parser')
+def steam_results_parser(rawMarkup):
+    soup = BeautifulSoup(rawMarkup, 'html.parser')
     resultList = []
     for resultRow in soup.findAll('a', attrs={'class':'search_result_row'}):
         if 'data-ds-appid' in resultRow.attrs:
@@ -36,6 +48,12 @@ def steam_results_parser(code):
     if len(resultList) > 0:
         return resultList[0]
     return ''
+
+
+def steam_all_results_parser(rawMarkup):
+    soup = BeautifulSoup(rawMarkup, 'html.parser')
+    rawPaginationString = soup.find('div', attrs={'class':'search_pagination_left'}).string
+    return rawPaginationString.replace('showing 1 - 25 of', '').strip()
 
 def steam_game_parser(code, link):
     soup = BeautifulSoup(code, 'html.parser')
