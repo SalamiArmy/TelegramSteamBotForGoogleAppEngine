@@ -127,25 +127,21 @@ class RunTestsHandler(webapp2.RequestHandler):
 class WebCommandRunHandler(webapp2.RequestHandler):
     def get(self):
         urlfetch.set_default_fetch_deadline(60)
-        text = self.request.get('text')
+        text = self.request.get('text') or self.request.get('getgame') or self.request.get('game')
+        user = self.request.get('user') or 'Admin'
         if not text:
-            self.response.write('Argument missing: \'text\'.')
+            self.response.write('Argument missing: \'text\' or \'getgame\' or \'game\'.')
             return
         chat_id = self.request.get('chat_id')
         if not chat_id:
             chat_id = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        if text.startswith('/game ') or text.startswith('/getgame '):
-            split = text[1:].lower().split(" ", 1)
-            try:
-                getgame.run(bot, chat_id, 'Admin', split[1] if len(split) > 1 else '')
-            except:
-                print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
-        elif text == '/getimgur':
-            try:
-                getimgur.run(bot, keyConfig, chat_id, user)
-            except:
-                print("Unexpected error running igmur command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+        split = text[1:].lower().split(" ", 1)
+        try:
+            getgame.run(bot, chat_id, user, split[1] if len(split) > 1 else '')
+        except:
+            print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+
 
 app = webapp2.WSGIApplication([
     ('/me', MeHandler),
@@ -153,5 +149,7 @@ app = webapp2.WSGIApplication([
     ('/set_webhook', SetWebhookHandler),
     ('/webhook', WebhookHandler),
     ('/run_tests', RunTestsHandler),
-    ('/run', WebCommandRunHandler)
+    ('/run', WebCommandRunHandler),
+    ('/game', WebCommandRunHandler),
+    ('/getgame', WebCommandRunHandler)
 ], debug=True)
