@@ -2,7 +2,6 @@
 import string
 
 import telegram
-Scripts
 from imgurpython import ImgurClient
 
 

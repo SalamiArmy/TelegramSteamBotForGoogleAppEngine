@@ -96,13 +96,12 @@ class WebhookHandler(webapp2.RequestHandler):
                 return
 
             text = text.replace(bot.name, '').strip()
-            if text.startswith('/game ') or text.startswith('/getgame '):
+            if text.startswith('/game') or text.startswith('/getgame'):
                 split = text[1:].lower().split(" ", 1)
-                if len(split) > 1:
-                    try:
-                        getgame.run(bot, chat_id, user, split[1])
-                    except:
-                        print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+                try:
+                    getgame.run(bot, chat_id, user, split[1] if len(split) > 1 else '' )
+                except:
+                    print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             elif text == '/getimgur':
                 try:
                     getimgur.run(bot, keyConfig, chat_id, user)
