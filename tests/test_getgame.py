@@ -97,7 +97,7 @@ class TestGetGame(unittest.TestCase):
 
         getgame.run(bot, chatId, 'Admin', requestText)
 
-    def test_getgame_with_blank(self):
+    def test_getgame_with_thisisthepolice(self):
         requestText = 'this is the police'
 
         keyConfig = ConfigParser.ConfigParser()
