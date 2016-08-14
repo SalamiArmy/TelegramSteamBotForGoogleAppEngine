@@ -27,7 +27,7 @@ class TestGetGame(unittest.TestCase):
 
         getgame.run(bot, chatId, 'Admin', requestText)
 
-    def test_getgame_with_halflife1a(self):
+    def test_getgame_with_halflife1(self):
         requestText = 'Half-Life 1'
 
         keyConfig = ConfigParser.ConfigParser()
@@ -49,6 +49,56 @@ class TestGetGame(unittest.TestCase):
 
     def test_getgame_with_cs(self):
         requestText = 'cs'
+
+        keyConfig = ConfigParser.ConfigParser()
+        keyConfig.read(["keys.ini", "..\keys.ini"])
+        bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
+        chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
+
+        getgame.run(bot, chatId, 'Admin', requestText)
+
+    def test_getgame_with_rawdata(self):
+        requestText = 'raw data'
+
+        keyConfig = ConfigParser.ConfigParser()
+        keyConfig.read(["keys.ini", "..\keys.ini"])
+        bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
+        chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
+
+        getgame.run(bot, chatId, 'Admin', requestText)
+
+    def test_getgame_with_wehappyfew(self):
+        requestText = 'we happy few'
+
+        keyConfig = ConfigParser.ConfigParser()
+        keyConfig.read(["keys.ini", "..\keys.ini"])
+        bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
+        chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
+
+        getgame.run(bot, chatId, 'Admin', requestText)
+
+    def test_getgame_with_shadowwarrior(self):
+        requestText = 'shadow warrior'
+
+        keyConfig = ConfigParser.ConfigParser()
+        keyConfig.read(["keys.ini", "..\keys.ini"])
+        bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
+        chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
+
+        getgame.run(bot, chatId, 'Admin', requestText)
+
+    def test_getgame_with_blank(self):
+        requestText = ''
+
+        keyConfig = ConfigParser.ConfigParser()
+        keyConfig.read(["keys.ini", "..\keys.ini"])
+        bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
+        chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
+
+        getgame.run(bot, chatId, 'Admin', requestText)
+
+    def test_getgame_with_blank(self):
+        requestText = 'this is the police'
 
         keyConfig = ConfigParser.ConfigParser()
         keyConfig.read(["keys.ini", "..\keys.ini"])
