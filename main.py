@@ -127,10 +127,10 @@ class RunTestsHandler(webapp2.RequestHandler):
 class WebCommandRunHandler(webapp2.RequestHandler):
     def get(self):
         urlfetch.set_default_fetch_deadline(60)
-        text = self.request.get('text') or self.request.get('getgame') or self.request.get('game')
+        text = self.request.get('text') or self.request.get('game')
         user = self.request.get('user') or 'Admin'
         if not text:
-            self.response.write('Argument missing: \'text\' or \'getgame\' or \'game\'.')
+            self.response.write('Argument missing: \'text\' or \'game\'.')
             return
         chat_id = self.request.get('chat_id')
         if not chat_id:
