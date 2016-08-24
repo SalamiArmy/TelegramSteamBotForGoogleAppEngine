@@ -1,5 +1,5 @@
 #Telegram Steam Bot for Google App Engine
-This is a message bot for Telegram which is supposed to be hosted on Google App Engine for free. It responds to just two commands which both do the same thing. The bot will respond to /game and /getgame in private or group chats. Both search the Steam store and the bot responds with a concise formatted version of the Steam store page of the top result.
+This is a message bot for Telegram which is supposed to be hosted on Google App Engine for free. The bot will respond to /game in private or group chats. Both search the Steam store and the bot responds with a concise formatted version of the Steam store page of the top result.
 
 ##Setup Google Apps Project
 1. Go to https://console.developers.google.com and create a new Google App Engine project. Then take that project id (it might be two random words and a number eg. gorilla-something-374635 but I think they changed that)
