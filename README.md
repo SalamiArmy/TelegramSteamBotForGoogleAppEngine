@@ -3,7 +3,7 @@ This is a message bot for Telegram which is supposed to be hosted on Google App 
 
 ##Setup Google Apps Project
 1. Go to https://console.developers.google.com and create a new Google App Engine project. Then take that project id (it might be two random words and a number eg. gorilla-something-374635 but I think they changed that)
-2. Then ask the BotFather (on the dayy of his daughter's wedding) for a new bot ID
+2. Then ask the BotFather (on the day of his daughter's wedding) for a new bot ID
 3. Copy app.yaml.template and rename the copy to to app.yaml.
 4. Update {GOOGLE APP ENGINE PROJECT ID} in app.yaml.
 5. Copy keys.ini.template and rename the copy to keys.ini.
