@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from google.appengine.ext import ndb
 
 
-def run(bot, chat_id, user, requestText):
+def run(bot, chat_id, user):
     rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?filter=topsellers' + requestText).read()
     appId = steam_results_parser(rawMarkup)
 
