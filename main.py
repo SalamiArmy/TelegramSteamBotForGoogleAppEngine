@@ -8,7 +8,8 @@ import sys
 import urllib2
 import telegram
 import commands.getgame as getgame
-import commands.getimgur as getimgur
+import commands.getimgur as getimgurg
+import commands.gethotgame as gethotgame
 
 # standard app engine imports
 from google.appengine.api import urlfetch
@@ -96,10 +97,10 @@ class WebhookHandler(webapp2.RequestHandler):
                 return
 
             text = text.replace(bot.name, '').strip()
-            if text.startswith('/game') or text.startswith('/getgame'):
+            if text.startswith('/game'):
                 split = text[1:].lower().split(" ", 1)
                 try:
-                    getgame.run(bot, chat_id, user, split[1] if len(split) > 1 else '' )
+                    getgame.run(bot, chat_id, user, split[1] if len(split) > 1 else '')
                 except:
                     print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             elif text == '/getimgur':
@@ -107,6 +108,11 @@ class WebhookHandler(webapp2.RequestHandler):
                     getimgur.run(bot, keyConfig, chat_id, user)
                 except:
                     print("Unexpected error running igmur command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+            elif text == '/gethotgame':
+                try:
+                    gethotgame.run(bot, keyConfig, chat_id, user)
+                except:
+                    print("Unexpected error running get hot game command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
 
 
 class RunTestsHandler(webapp2.RequestHandler):
