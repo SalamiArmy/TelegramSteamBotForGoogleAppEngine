@@ -7,7 +7,7 @@ from google.appengine.ext import ndb
 
 
 def run(bot, chat_id, user):
-    rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?filter=topsellers' + requestText).read()
+    rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?filter=topsellers').read()
     appId = steam_results_parser(rawMarkup)
 
     if appId:
@@ -27,8 +27,7 @@ def run(bot, chat_id, user):
         return True
     else:
         bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
-                                              ', I\'m afraid I can\'t find the steam game ' + \
-                                              requestText.encode('utf-8'))
+                                              ', I\'m afraid I can\'t find any hot steam games.')
 
 
 def steam_results_parser(rawMarkup):
