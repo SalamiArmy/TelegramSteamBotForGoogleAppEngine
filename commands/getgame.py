@@ -86,8 +86,6 @@ def steam_game_parser(code, link):
             if discountPercentageDiv:
                 percentageDiscountedBy = discountPercentageDiv.string
                 AllGameDetailsFormatted += ' (at ' + percentageDiscountedBy.strip() + ' off)'
-        else:
-            AllGameDetailsFormatted += ' - Free to Play'
     AllGameDetailsFormatted += '*\n'
 
     descriptionDiv = soup.find('div', attrs={'class':'game_description_snippet'})
