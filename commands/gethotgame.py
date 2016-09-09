@@ -5,10 +5,49 @@ import urllib2
 from bs4 import BeautifulSoup
 from google.appengine.ext import ndb
 
+# ================================
+
+class HotGames(ndb.Model):
+    hotGame = ndb.TextProperty()
+
+
+# ================================
+
+def addHotGame(chat_id, game):
+    hotGamesIterator = 0
+    while getHotGame(chat_id, hotGamesIterator):
+        hotGamesIterator += 1
+    es = HotGames.get_or_insert(chat_id + "-" + str(hotGamesIterator))
+    es.hotGame = game
+    es.put()
+
+def HasBeenAHotGame(chat_id, game):
+    hotGamesIterator = 0
+    hotGame = ""
+    while hotGame:
+        hotGame = getHotGame(chat_id, hotGamesIterator)
+        if hotGame == game:
+            return True
+        hotGamesIterator += 1
+    return False
+
+def getHotGame(chat_id, index):
+    hg = HotGames.get_by_id(chat_id + "-" + str(index))
+    if hg:
+        return hg.hotGame
+    return None
+
+def clearHotGames(chat_id):
+    hotGamesIterator = 0
+    while getHotGame(chat_id, hotGamesIterator):
+        es = HotGames.get_or_insert(chat_id + "-" + str(hotGamesIterator))
+        es.hotGame = None
+        es.put()
+        hotGamesIterator += 1
 
 def run(bot, chat_id, user):
     rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?filter=topsellers').read()
-    appId = steam_results_parser(rawMarkup)
+    appId = steam_results_parser(rawMarkup, chat_id)
 
     if appId:
         steamGameLink = 'http://store.steampowered.com/app/' + appId
@@ -30,7 +69,7 @@ def run(bot, chat_id, user):
                                               ', I\'m afraid I can\'t find any hot steam games.')
 
 
-def steam_results_parser(rawMarkup):
+def steam_results_parser(rawMarkup, chat_id):
     soup = BeautifulSoup(rawMarkup, 'html.parser')
     resultList = []
     for resultRow in soup.findAll('a', attrs={'class':'search_result_row'}):
@@ -38,9 +77,15 @@ def steam_results_parser(rawMarkup):
             resultList.append(resultRow['data-ds-appid'])
         if 'data-ds-bundleid' in resultRow.attrs:
             resultList.append(resultRow['data-ds-bundleid'])
-    if len(resultList) > 0:
-        return resultList[0]
-    return ''
+    resultsListLength = len(resultList)
+    if resultsListLength > 0:
+        SearchResultsInterator = 0
+        while (SearchResultsInterator<resultsListLength):
+            if not (HasBeenAHotGame(chat_id, resultList[SearchResultsInterator])):
+                addHotGame(chat_id, resultList[SearchResultsInterator])
+                return resultList[SearchResultsInterator]
+            SearchResultsInterator += 1
+    return None
 
 def steam_age_gate_parser(rawMarkup):
     soup = BeautifulSoup(rawMarkup, 'html.parser')

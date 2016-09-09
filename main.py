@@ -8,7 +8,6 @@ import sys
 import urllib2
 import telegram
 import commands.getgame as getgame
-import commands.getimgur as getimgurg
 import commands.gethotgame as gethotgame
 
 # standard app engine imports
@@ -103,11 +102,6 @@ class WebhookHandler(webapp2.RequestHandler):
                     getgame.run(bot, chat_id, user, split[1] if len(split) > 1 else '')
                 except:
                     print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
-            elif text == '/getimgur':
-                try:
-                    getimgur.run(bot, keyConfig, chat_id, user)
-                except:
-                    print("Unexpected error running igmur command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             elif text == '/gethotgame':
                 try:
                     gethotgame.run(bot, chat_id, user)

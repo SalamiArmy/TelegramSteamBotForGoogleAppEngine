@@ -2,19 +2,14 @@ import ConfigParser
 import unittest
 import telegram
 
-import commands.gethotgame as gethotgame
+import commands.resethotgame as resethotgame
 
 from google.appengine.ext import ndb
 from google.appengine.ext import testbed
 
-class TestGetHotGame(unittest.TestCase):
-    def test_gethotgame(self):
-        keyConfig = ConfigParser.ConfigParser()
-        keyConfig.read(["keys.ini", "..\keys.ini"])
-        bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
-        chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
-
-        gethotgame.run(bot, chatId, 'Admin')
+class Testresethotgame(unittest.TestCase):
+    def test_resethotgame(self):
+        main.setHotGame(123, "Game 1")
 
     def setUp(self):
         # First, create an instance of the Testbed class.
