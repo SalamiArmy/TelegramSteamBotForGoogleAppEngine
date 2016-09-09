@@ -104,7 +104,7 @@ class WebhookHandler(webapp2.RequestHandler):
                     print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             elif text == '/gethotgame':
                 try:
-                    gethotgame.run(bot, chat_id, user)
+                    gethotgame.run(bot, str(chat_id), user)
                 except:
                     print("Unexpected error running get hot game command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
 
