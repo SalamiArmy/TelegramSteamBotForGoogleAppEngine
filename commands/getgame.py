@@ -27,6 +27,11 @@ def run(bot, chat_id, user, requestText):
         bypassAgeGate.addheaders.append(('Cookie', 'birthtime=578390401'))
         bypassAgeGate.addheaders.append(('Cookie', 'mature_content=1'))
         code = bypassAgeGate.open(steamGameLink).read()
+        if 'id=\"app_agegate\"' in code:
+            gameTitle = steam_age_gate_parser(code)
+            bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
+                                              ', I\'m afraid that \"' + gameTitle + '\" is protected by an age gate.')
+            return False
 
         gameResults = steam_game_parser(code, steamGameLink)
         bot.sendMessage(chat_id=chat_id, text=gameResults,
@@ -54,6 +59,11 @@ def steam_all_results_parser(rawMarkup):
     soup = BeautifulSoup(rawMarkup, 'html.parser')
     rawPaginationString = soup.find('div', attrs={'class':'search_pagination_left'}).string
     return rawPaginationString.replace('showing 1 - 25 of', '').strip()
+
+def steam_age_gate_parser(rawMarkup):
+    soup = BeautifulSoup(rawMarkup, 'html.parser')
+    rawTitleString = soup.find('title').string
+    return rawTitleString.strip()
 
 def steam_game_parser(code, link):
     soup = BeautifulSoup(code, 'html.parser')
@@ -126,3 +136,14 @@ def steam_game_parser(code, link):
         AllGameDetailsFormatted += '`'
 
     return AllGameDetailsFormatted
+
+class NoRedirectHandler(urllib2.HTTPRedirectHandler):
+    def http_error_302(self, req, fp, code, msg, headers):
+        infourl = urllib.addinfourl(fp, headers, req.get_full_url())
+        infourl.status = code
+        infourl.code = code
+        return infourl
+    http_error_300 = http_error_302
+    http_error_301 = http_error_302
+    http_error_303 = http_error_302
+    http_error_307 = http_error_302

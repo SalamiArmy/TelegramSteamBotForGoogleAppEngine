@@ -107,6 +107,16 @@ class TestGetGame(unittest.TestCase):
 
         getgame.run(bot, chatId, 'Admin', requestText)
 
+    def test_getgame_with_mysummercar(self):
+        requestText = 'my summer car'
+
+        keyConfig = ConfigParser.ConfigParser()
+        keyConfig.read(["keys.ini", "..\keys.ini"])
+        bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
+        chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
+
+        getgame.run(bot, chatId, 'Admin', requestText)
+
     def test_getgame_with_blank(self):
         requestText = 'pixel cup soccer'
 
