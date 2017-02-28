@@ -24,7 +24,7 @@ def run(bot, chat_id, user, requestText):
     if appId:
         steamGameLink = 'http://store.steampowered.com/app/' + appId
         bypassAgeGate = urllib2.build_opener()
-        bypassAgeGate.addheaders.append(('Cookie', 'birthtime=578390401'))
+        bypassAgeGate.addheaders.append(('Cookie', 'birthtime=-2208959999'))
         bypassAgeGate.addheaders.append(('Cookie', 'mature_content=1'))
         code = bypassAgeGate.open(steamGameLink).read()
         if 'id=\"app_agegate\"' in code:

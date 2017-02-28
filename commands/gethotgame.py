@@ -3,47 +3,13 @@ import urllib
 import urllib2
 
 from bs4 import BeautifulSoup
-from google.appengine.ext import ndb
 
-# ================================
+from commands import addhotgame
 
-class HotGames(ndb.Model):
-    hotGame = ndb.TextProperty()
-
-
-# ================================
-
-def addHotGame(chat_id, game):
-    hotGamesIterator = 0
-    while getHotGame(chat_id, hotGamesIterator):
-        hotGamesIterator += 1
-    es = HotGames.get_or_insert(chat_id + "-" + str(hotGamesIterator))
-    es.hotGame = game
-    es.put()
 
 def HasBeenAHotGame(chat_id, game):
-    hotGamesIterator = 0
-    hotGame = ""
-    while hotGame:
-        hotGame = getHotGame(chat_id, hotGamesIterator)
-        if hotGame == game:
-            return True
-        hotGamesIterator += 1
-    return False
-
-def getHotGame(chat_id, index):
-    hg = HotGames.get_by_id(chat_id + "-" + str(index))
-    if hg:
-        return hg.hotGame
-    return None
-
-def clearHotGames(chat_id):
-    hotGamesIterator = 0
-    while getHotGame(chat_id, hotGamesIterator):
-        es = HotGames.get_or_insert(chat_id + "-" + str(hotGamesIterator))
-        es.hotGame = None
-        es.put()
-        hotGamesIterator += 1
+    hotGame = addhotgame.getHotGames(chat_id)
+    return game in hotGame
 
 def run(bot, chat_id, user):
     rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?filter=topsellers').read()
