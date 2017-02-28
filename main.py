@@ -16,6 +16,9 @@ from google.appengine.ext import ndb
 
 import webapp2
 
+from commands import addhotgame
+from commands import resethotgames
+
 BASE_URL = 'https://api.telegram.org/bot'
 
 # Read keys.ini file at program start (don't forget to put your keys in there!)
@@ -107,6 +110,16 @@ class WebhookHandler(webapp2.RequestHandler):
                     gethotgame.run(bot, str(chat_id), user)
                 except:
                     print("Unexpected error running get hot game command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+            elif text == '/addhotgame':
+                try:
+                    addhotgame.run(bot, str(chat_id), user)
+                except:
+                    print("Unexpected error running add hot game command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+            elif text == '/addhotgame':
+                try:
+                    resethotgames.run(bot, str(chat_id), user)
+                except:
+                    print("Unexpected error running reset hot games command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
 
 
 class RunTestsHandler(webapp2.RequestHandler):
