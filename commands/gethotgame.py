@@ -48,7 +48,7 @@ def steam_results_parser(rawMarkup, chat_id):
         SearchResultsInterator = 0
         while (SearchResultsInterator<resultsListLength):
             if not (HasBeenAHotGame(chat_id, resultList[SearchResultsInterator])):
-                addHotGame(chat_id, resultList[SearchResultsInterator])
+                addhotgame.addHotGame(chat_id, resultList[SearchResultsInterator])
                 return resultList[SearchResultsInterator]
             SearchResultsInterator += 1
     return None
