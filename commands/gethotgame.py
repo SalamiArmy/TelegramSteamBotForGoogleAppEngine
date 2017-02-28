@@ -12,7 +12,7 @@ def HasBeenAHotGame(chat_id, game):
     return game in hotGame
 
 def run(bot, chat_id, user):
-    rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?filter=topsellers').read()
+    rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?filter=topsellers&category1=998').read()
     appId = steam_results_parser(rawMarkup, chat_id)
 
     if appId:
