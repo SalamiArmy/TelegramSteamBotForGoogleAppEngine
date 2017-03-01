@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from commands import addhotgame
 
 def run(bot, chat_id, user, message):
-    totalResults = int(message)
+    totalPages = int(message)
     appIds = get_results_list(totalPages)
 
     if appIds:
