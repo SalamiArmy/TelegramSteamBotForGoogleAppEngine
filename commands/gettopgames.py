@@ -6,27 +6,12 @@ from bs4 import BeautifulSoup
 
 from commands import addhotgame
 
-def HasBeenAHotGame(chat_id, game):
-    hotGame = addhotgame.getHotGames(chat_id)
-    return ("," + game in hotGame) or (game + "," in hotGame)
-
 def run(bot, chat_id, user):
     rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?filter=topsellers&category1=998').read()
-    appId = steam_results_parser(rawMarkup, chat_id)
+    appIds = steam_results_parser(rawMarkup, chat_id)
 
-    if appId:
-        steamGameLink = 'http://store.steampowered.com/app/' + appId
-        bypassAgeGate = urllib2.build_opener()
-        bypassAgeGate.addheaders.append(('Cookie', 'birthtime=578390401'))
-        code = bypassAgeGate.open(steamGameLink).read()
-        if 'id=\"app_agegate\"' in code:
-            gameTitle = steam_age_gate_parser(code)
-            bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
-                                              ', I\'m afraid that \"' + gameTitle + '\" is protected by an age gate.')
-            return False
-
-        gameResults = steam_game_parser(code, steamGameLink)
-        bot.sendMessage(chat_id=chat_id, text=gameResults,
+    if appIds:
+        bot.sendMessage(chat_id=chat_id, text="Top App IDs:\n" + appIds,
                         disable_web_page_preview=True, parse_mode='Markdown')
         return True
     else:
@@ -45,11 +30,11 @@ def steam_results_parser(rawMarkup, chat_id):
     resultsListLength = len(resultList)
     if resultsListLength > 0:
         SearchResultsInterator = 0
+        ResultsCSV = ""
         while (SearchResultsInterator<resultsListLength):
-            if not (HasBeenAHotGame(chat_id, resultList[SearchResultsInterator])):
-                addhotgame.addHotGame(chat_id, resultList[SearchResultsInterator])
-                return resultList[SearchResultsInterator]
+            ResultsCSV += "," + resultList[SearchResultsInterator]
             SearchResultsInterator += 1
+        return ResultsCSV.lstrip(",")
     return None
 
 def steam_age_gate_parser(rawMarkup):

@@ -24,7 +24,7 @@ def getHotGames(chat_id):
         return es.previousHotGames
     return ''
 
-def run(bot, keyConfig, chat_id, user, message, intention_confidence=0.0):
+def run(bot, chat_id, user, message):
     try:
         requestText = message.replace(bot.name, "").strip()
         OldHotGames = getHotGames(chat_id)
