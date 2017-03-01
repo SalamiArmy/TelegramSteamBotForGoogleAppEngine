@@ -20,20 +20,19 @@ def run(bot, chat_id, user, message):
 
 
 def get_results_list(totalPages):
-    resultsListLength = 0
     pageIndex = 1
+    resultList = []
     while (pageIndex <= totalPages):
         rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?filter=topsellers&category1=998&page=' + str(pageIndex)).read()
         soup = BeautifulSoup(rawMarkup, 'html.parser')
-        resultList = []
         for resultRow in soup.findAll('a', attrs={'class':'search_result_row'}):
             if 'data-ds-appid' in resultRow.attrs:
                 resultList.append(resultRow['data-ds-appid'])
             if 'data-ds-bundleid' in resultRow.attrs:
                 resultList.append(resultRow['data-ds-bundleid'])
-        resultsListLength += len(resultList)
         pageIndex += 1
 
+    resultsListLength = len(resultList)
     if resultsListLength > 0:
         SearchResultsInterator = 0
         ResultsCSV = ""
