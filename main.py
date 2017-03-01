@@ -18,6 +18,7 @@ import webapp2
 
 from commands import addhotgame
 from commands import resethotgames
+from commands import gettopgames
 
 BASE_URL = 'https://api.telegram.org/bot'
 
@@ -116,11 +117,17 @@ class WebhookHandler(webapp2.RequestHandler):
                     addhotgame.run(bot, str(chat_id), user, split[1] if len(split) > 1 else '')
                 except:
                     print("Unexpected error running add hot game command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
-            elif text == '/addhotgame':
+            elif text == '/resethotgames':
                 try:
                     resethotgames.run(bot, str(chat_id), user)
                 except:
                     print("Unexpected error running reset hot games command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+            elif text.startswith('/gettopgames'):
+                split = text[1:].lower().split(" ", 1)
+                try:
+                    gettopgames.run(bot, str(chat_id), user, split[1] if len(split) > 1 else '')
+                except:
+                    print("Unexpected error running get top games command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
 
 
 class RunTestsHandler(webapp2.RequestHandler):
