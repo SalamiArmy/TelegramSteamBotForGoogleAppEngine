@@ -22,7 +22,7 @@ def getSetValue(chat_id):
         return es.theValue
     return ''
 
-def run(bot, keyConfig, chat_id, user, message, intention_confidence=0.0):
+def run(bot, chat_id, user):
     try:
         OldValue = getSetValue(chat_id)
         if OldValue == '':
