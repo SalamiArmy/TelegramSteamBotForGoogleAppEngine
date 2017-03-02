@@ -4,14 +4,14 @@ import string
 import sys
 from google.appengine.ext import ndb
 
-class SetHotGame(ndb.Model):
+class HotGamesDataStore(ndb.Model):
     # key name: str(chat_id)
     previousHotGames = ndb.StringProperty(indexed=False, default='')
 
 # ================================
 
 def addHotGame(chat_id, NewHotGame):
-    es = SetHotGame.get_or_insert(str(chat_id))
+    es = HotGamesDataStore.get_or_insert(str(chat_id))
     if es.previousHotGames == '':
         es.previousHotGames = NewHotGame
     else:
@@ -19,10 +19,15 @@ def addHotGame(chat_id, NewHotGame):
     es.put()
 
 def getHotGames(chat_id):
-    es = SetHotGame.get_by_id(str(chat_id))
+    es = HotGamesDataStore.get_by_id(str(chat_id))
     if es:
         return es.previousHotGames
     return ''
+
+def resetHotGames(chat_id):
+    es = HotGamesDataStore.get_or_insert(str(chat_id))
+    es.previousHotGames = ''
+    es.put()
 
 def run(bot, chat_id, user, message):
     try:
