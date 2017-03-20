@@ -9,7 +9,6 @@ import sys
 import urllib2
 import telegram
 import commands.getgame as getgame
-import commands.gethotgame as gethotgame
 
 # standard app engine imports
 from google.appengine.api import urlfetch
@@ -126,11 +125,6 @@ class WebhookHandler(webapp2.RequestHandler):
                     getgame.run(bot, chat_id, user, split[1] if len(split) > 1 else '')
                 except:
                     print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
-            elif text.startswith('/gethotgame'):
-                try:
-                    gethotgame.run(bot, str(chat_id), user)
-                except:
-                    print("Unexpected error running get hot game command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             elif text.startswith('/gettopgames'):
                 split = text[1:].lower().split(" ", 1)
                 try:
