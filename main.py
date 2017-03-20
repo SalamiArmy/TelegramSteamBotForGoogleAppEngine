@@ -1,4 +1,5 @@
 import ConfigParser
+import importlib
 import json
 import logging
 import unittest
@@ -130,12 +131,6 @@ class WebhookHandler(webapp2.RequestHandler):
                     gethotgame.run(bot, str(chat_id), user)
                 except:
                     print("Unexpected error running get hot game command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
-            elif text.startswith('/addhotgame'):
-                split = text[1:].lower().split(" ", 1)
-                try:
-                    addhotgame.run(bot, str(chat_id), user, split[1] if len(split) > 1 else '')
-                except:
-                    print("Unexpected error running add hot game command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             elif text.startswith('/gettopgames'):
                 split = text[1:].lower().split(" ", 1)
                 try:
