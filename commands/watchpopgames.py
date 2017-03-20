@@ -42,7 +42,7 @@ def get_add_removed_games(new_list, old_list):
     return added_games, removed_games
 
 
-def run(bot, keyConfig, chat_id, user, message='', intention_confidence=0.0):
+def run(bot, chat_id, user, message='', intention_confidence=0.0):
     pop_games = get_steamcharts_top_games()
     if pop_games:
         OldValue = getWatchValue(chat_id)
