@@ -1,9 +1,10 @@
+
 import ConfigParser
 import unittest
 
 import telegram
 
-from commands.gettopgames import run
+from commands.getpopgames import run
 
 
 class TestGetGame(unittest.TestCase):
