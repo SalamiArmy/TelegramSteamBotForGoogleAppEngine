@@ -16,8 +16,6 @@ from google.appengine.ext import ndb
 
 import webapp2
 
-from commands import addhotgame
-from commands import resethotgames
 from commands import gettopgames
 from commands import getpopgames
 from commands import watchtopgames

@@ -13,7 +13,7 @@ This is a message bot for Telegram which is supposed to be hosted on Google App 
 ```bash
 git clone (url for your TelegramSteamBotForGoogleAppEngine fork) ~/bot
 cd ~/bot
-(PATH TO PYTHON27 INSTALL)\scripts\pip.exe install -t lib python-telegram-bot bs4 imgurpython
+(PATH TO PYTHON27 INSTALL)\scripts\pip.exe install -t lib python-telegram-bot bs4
 (PATH TO GOOGLE APP ENGINE LAUNCHER INSTALL)appcfg.py -A {GOOGLE APP ENGINE PROJECT ID} update .
 ```
 
