@@ -51,12 +51,12 @@ def run(bot, chat_id, user):
             if OldValue == '':
                 if user != 'Watcher':
                     bot.sendMessage(chat_id=chat_id,
-                                    text='Now watching /' + watchedCommandName + ' ' + message + '\n' + top_games,
+                                    text='Now watching /' + watchedCommandName+ '\n' + top_games,
                                     parse_mode='Markdown')
             else:
                 games_added, games_removed = get_add_removed_games(top_games, OldValue)
                 bot.sendMessage(chat_id=chat_id,
-                                text='Watch for /' + watchedCommandName + ' ' + message + ' has changed' +
+                                text='Watch for /' + watchedCommandName + ' has changed' +
                                      (' order.' + games_added if (games_added == added_games_title and games_removed == removed_games_title) else '.') +
                                      '\n' + top_games +
                                      ('\n' + games_added if games_added != added_games_title else '') +
@@ -65,10 +65,10 @@ def run(bot, chat_id, user):
         else:
             if user != 'Watcher':
                 bot.sendMessage(chat_id=chat_id,
-                                text='Watch for /' + watchedCommandName + ' ' + message + ' has not changed:\n' + top_games,
+                                text='Watch for /' + watchedCommandName + ' has not changed:\n' + top_games,
                                 parse_mode='Markdown')
-        if not main.AllWatchesContains(watchedCommandName, chat_id, message):
-            main.addToAllWatches(watchedCommandName, chat_id, message)
+        if not main.AllWatchesContains(watchedCommandName, chat_id):
+            main.addToAllWatches(watchedCommandName, chat_id)
     else:
         bot.sendMessage(chat_id=chat_id,
                         text='I\'m sorry ' + (user if not user == '' else 'Dave') +
