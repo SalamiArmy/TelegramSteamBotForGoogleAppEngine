@@ -43,7 +43,7 @@ def get_add_removed_games(new_list, old_list):
 
 
 def run(bot, chat_id, user):
-    top_games = get_steam_top_games()
+    top_games = get_steam_top_games().encode('utf-8')
     if top_games:
         OldValue = getWatchValue(chat_id)
         if OldValue != top_games:
