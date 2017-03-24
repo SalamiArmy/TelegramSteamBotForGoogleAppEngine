@@ -1,7 +1,6 @@
-# coding=utf-8
 from commands.watchpopgames import unwatch
 
-def run(bot, chat_id, user, message, intention_confidence=0.0):
+def run(bot, chat_id, user):
     unwatch(bot, chat_id)
 
 
