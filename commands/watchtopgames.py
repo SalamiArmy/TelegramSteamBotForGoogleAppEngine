@@ -5,9 +5,9 @@ from google.appengine.ext import ndb
 import main
 from commands.gettopgames import get_steam_top_games
 
-watchedCommandName = 'gettopgames'
-removed_games_title = '*Removed Games:*'
-added_games_title = '*New Games:*'
+watchedCommandName = 'gettopgames'.encode('utf-8')
+removed_games_title = '*Removed Games:*'.encode('utf-8')
+added_games_title = '*New Games:*'.encode('utf-8')
 
 
 class WatchValue(ndb.Model):
@@ -26,7 +26,7 @@ def setWatchValue(chat_id, NewValue):
 def getWatchValue(chat_id):
     es = WatchValue.get_by_id(watchedCommandName + ':' + str(chat_id))
     if es:
-        return es.currentValue
+        return es.currentValue.encode('utf-8')
     return ''
 
 
@@ -42,8 +42,8 @@ def get_add_removed_games(new_list, old_list):
     return added_games, removed_games
 
 
-def run(bot, chat_id, user, message='', intention_confidence=0.0):
-    top_games = get_steam_top_games()
+def run(bot, chat_id, user):
+    top_games = get_steam_top_games().encode('utf-8')
     if top_games:
         OldValue = getWatchValue(chat_id)
         if OldValue != top_games:
@@ -51,21 +51,22 @@ def run(bot, chat_id, user, message='', intention_confidence=0.0):
             if OldValue == '':
                 if user != 'Watcher':
                     bot.sendMessage(chat_id=chat_id,
-                                    text='Now watching /' + watchedCommandName + ' ' + message + '\n' + top_games,
+                                    text='Now watching /' + watchedCommandName+ '\n' + top_games,
                                     parse_mode='Markdown')
             else:
                 games_added, games_removed = get_add_removed_games(top_games, OldValue)
+                message_text = 'Watch for /' + watchedCommandName + ' has changed' + (' order.' + games_added if (
+                games_added == added_games_title and games_removed == removed_games_title) else '.') + '\n' + top_games + (
+                        '\n' + games_added if games_added != added_games_title else '') + (
+                        '\n' + games_removed if games_removed != removed_games_title else '')
+                print('sending message text:\n' + message_text)
                 bot.sendMessage(chat_id=chat_id,
-                                text='Watch for /' + watchedCommandName + ' ' + message + ' has changed' +
-                                     (' order.' + games_added if (games_added == added_games_title and games_removed == removed_games_title) else '.') +
-                                     '\n' + top_games +
-                                     ('\n' + games_added if games_added != added_games_title else '') +
-                                     ('\n' + games_removed if games_removed != removed_games_title else ''),
+                                text=message_text,
                                 parse_mode='Markdown')
         else:
             if user != 'Watcher':
                 bot.sendMessage(chat_id=chat_id,
-                                text='Watch for /' + watchedCommandName + ' ' + message + ' has not changed:\n' + top_games,
+                                text='Watch for /' + watchedCommandName + ' has not changed:\n' + top_games,
                                 parse_mode='Markdown')
         if not main.AllWatchesContains(watchedCommandName, chat_id):
             main.addToAllWatches(watchedCommandName, chat_id)

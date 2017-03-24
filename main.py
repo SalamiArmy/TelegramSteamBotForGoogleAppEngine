@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import ConfigParser
 import importlib
 import json
@@ -209,8 +211,7 @@ class TriggerAllWatches(webapp2.RequestHandler):
                     print('executing command: ' + split[1].replace('get', ''))
                     mod = importlib.import_module('commands.watch' + split[1].replace('get', ''))
                     chat_id = split[0]
-                    request_text = (split[2] if len(split) == 3 else '')
-                    mod.run(bot, keyConfig, chat_id, 'Watcher', request_text)
+                    mod.run(bot, chat_id, 'Watcher')
                 else:
                     print('removing from all watches: ' + watch)
                     removeFromAllWatches(watch)
