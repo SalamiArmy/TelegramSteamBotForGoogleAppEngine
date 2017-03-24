@@ -5,8 +5,8 @@ import urllib2
 from bs4 import BeautifulSoup
 
 
-def run(bot, chat_id, user, message=''):
-    gameResults = get_steamcharts_top_games()
+def run(bot, chat_id, user):
+    gameResults = get_steamcharts_top_games().encode('utf-8')
     if gameResults:
         bot.sendMessage(chat_id=chat_id, text=gameResults,
                         disable_web_page_preview=True, parse_mode='Markdown')

@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 def run(bot, chat_id, user, requestText):
     if requestText == '':
         rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?category1=998&term=#').read()
-        totalGames = steam_all_results_parser(rawMarkup)
+        totalGames = steam_all_results_parser(rawMarkup).encode('utf-8')
         if totalGames != '':
             bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
                                                   ', there are ' + totalGames + ' total games on steam. Pick one.')
