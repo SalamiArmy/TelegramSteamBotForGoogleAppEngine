@@ -26,7 +26,7 @@ def setWatchValue(chat_id, NewValue):
 def getWatchValue(chat_id):
     es = WatchValue.get_by_id(watchedCommandName + ':' + str(chat_id))
     if es:
-        return es.currentValue
+        return es.currentValue.encode('utf-8')
     return ''
 
 
