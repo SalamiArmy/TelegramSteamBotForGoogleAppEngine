@@ -5,9 +5,9 @@ from google.appengine.ext import ndb
 import main
 from commands.getpopgames import get_steamcharts_top_games
 
-watchedCommandName = 'getpopgames'
-removed_games_title = '*Removed Games:*'
-added_games_title = '*New Games:*'
+watchedCommandName = 'getpopgames'.encode('utf-8')
+removed_games_title = '*Removed Games:*'.encode('utf-8')
+added_games_title = '*New Games:*'.encode('utf-8')
 
 
 class WatchValue(ndb.Model):
