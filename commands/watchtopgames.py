@@ -55,12 +55,13 @@ def run(bot, chat_id, user):
                                     parse_mode='Markdown')
             else:
                 games_added, games_removed = get_add_removed_games(top_games, OldValue)
+                message_text = 'Watch for /' + watchedCommandName + ' has changed' + (' order.' + games_added if (
+                games_added == added_games_title and games_removed == removed_games_title) else '.') + '\n' + top_games + (
+                        '\n' + games_added if games_added != added_games_title else '') + (
+                        '\n' + games_removed if games_removed != removed_games_title else '')
+                print('sending message text:\n' + message_text)
                 bot.sendMessage(chat_id=chat_id,
-                                text='Watch for /' + watchedCommandName + ' has changed' +
-                                     (' order.' + games_added if (games_added == added_games_title and games_removed == removed_games_title) else '.') +
-                                     '\n' + top_games +
-                                     ('\n' + games_added if games_added != added_games_title else '') +
-                                     ('\n' + games_removed if games_removed != removed_games_title else ''),
+                                text=message_text,
                                 parse_mode='Markdown')
         else:
             if user != 'Watcher':
