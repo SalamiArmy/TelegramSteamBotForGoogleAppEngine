@@ -67,8 +67,8 @@ def run(bot, chat_id, user, message='', intention_confidence=0.0):
                 bot.sendMessage(chat_id=chat_id,
                                 text='Watch for /' + watchedCommandName + ' ' + message + ' has not changed:\n' + top_games,
                                 parse_mode='Markdown')
-        if not main.AllWatchesContains(watchedCommandName, chat_id, message):
-            main.addToAllWatches(watchedCommandName, chat_id, message)
+        if not main.AllWatchesContains(watchedCommandName, chat_id):
+            main.addToAllWatches(watchedCommandName, chat_id)
     else:
         bot.sendMessage(chat_id=chat_id,
                         text='I\'m sorry ' + (user if not user == '' else 'Dave') +
