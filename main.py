@@ -128,39 +128,33 @@ class WebhookHandler(webapp2.RequestHandler):
                 except:
                     print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             elif text.startswith('/gettopgames'):
-                split = text[1:].lower().split(" ", 1)
                 try:
-                    gettopgames.run(bot, str(chat_id), user, split[1] if len(split) > 1 else '')
+                    gettopgames.run(bot, str(chat_id), user)
                 except:
                     print("Unexpected error running get top games command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             elif text.startswith('/getpopgames'):
-                split = text[1:].lower().split(" ", 1)
                 try:
-                    getpopgames.run(bot, str(chat_id), user, split[1] if len(split) > 1 else '')
+                    getpopgames.run(bot, str(chat_id), user)
                 except:
                     print("Unexpected error running get pop games command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             elif text.startswith('/watchtopgames'):
-                split = text[1:].lower().split(" ", 1)
                 try:
-                    watchtopgames.run(bot, str(chat_id), user, split[1] if len(split) > 1 else '')
+                    watchtopgames.run(bot, str(chat_id), user)
                 except:
                     print("Unexpected error running watch top games command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             elif text.startswith('/watchpopgames'):
-                split = text[1:].lower().split(" ", 1)
                 try:
-                    watchpopgames.run(bot, str(chat_id), user, split[1] if len(split) > 1 else '')
+                    watchpopgames.run(bot, str(chat_id), user)
                 except:
                     print("Unexpected error running watch pop games command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             elif text.startswith('/unwatchtopgames'):
-                split = text[1:].lower().split(" ", 1)
                 try:
-                    unwatchtopgames.run(bot, str(chat_id), user, split[1] if len(split) > 1 else '')
+                    unwatchtopgames.run(bot, str(chat_id), user)
                 except:
                     print("Unexpected error running unwatch top games command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             elif text.startswith('/unwatchpopgames'):
-                split = text[1:].lower().split(" ", 1)
                 try:
-                    unwatchpopgames.run(bot, str(chat_id), user, split[1] if len(split) > 1 else '')
+                    unwatchpopgames.run(bot, str(chat_id), user)
                 except:
                     print("Unexpected error running unwatch pop games command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
 
