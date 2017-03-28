@@ -61,7 +61,8 @@ def run(bot, chat_id, user):
                         '\n' + games_removed if games_removed != removed_games_title else '')
                 print('sending message text:\n' + message_text)
                 bot.sendMessage(chat_id=chat_id,
-                                text=message_text)
+                                text=message_text,
+                                parse_mode='Markdown')
         else:
             if user != 'Watcher':
                 bot.sendMessage(chat_id=chat_id,
