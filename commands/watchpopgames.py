@@ -59,7 +59,6 @@ def run(bot, chat_id, user):
                 games_added == added_games_title and games_removed == removed_games_title) else '.') + '\n' + pop_games + (
                         '\n' + games_added if games_added != added_games_title else '') + (
                         '\n' + games_removed if games_removed != removed_games_title else '')
-                print('sending message text:\n' + message_text)
                 bot.sendMessage(chat_id=chat_id,
                                 text=message_text,
                                 parse_mode='Markdown')
