@@ -24,8 +24,11 @@ def run(bot, chat_id, user, requestText):
     if appId:
         steamGameLink = 'http://store.steampowered.com/app/' + appId
         bypassAgeGate = urllib2.build_opener()
-        bypassAgeGate.addheaders.append(('Cookie', 'birthtime=-2208959999'))
-        bypassAgeGate.addheaders.append(('Cookie', 'mature_content=1'))
+        #this bypasses the "mature content - continue/cancel" screen
+        bypassAgeGate.addheaders.append(('Cookie', 'mature_content=1; path=/; max-age=31536000;expires=Fri, 24 Mar 2027 20:00:00 GMT'))
+        bypassAgeGate.open(steamGameLink)
+        #this bypasses the "enter your date of birth" screen
+        bypassAgeGate.addheaders.append(('Cookie', 'birthtime=0; path=/; max-age=31536000;expires=Fri, 24 Mar 2027 20:00:00 GMT'))
         code = bypassAgeGate.open(steamGameLink).read()
         if 'id=\"app_agegate\"' in code:
             gameTitle = steam_age_gate_parser(code)
@@ -73,6 +76,8 @@ def steam_game_parser(code, link):
     if titleDiv:
         gameTitle = titleDiv.string
         AllGameDetailsFormatted += '*' + gameTitle
+    else:
+        raise Exception('Cannot parse title from Steam page for this game.')
 
     priceDiv = soup.find('div', attrs={'class':'game_purchase_price price'})
     if priceDiv:
