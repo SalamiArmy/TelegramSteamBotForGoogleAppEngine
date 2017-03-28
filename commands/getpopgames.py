@@ -19,10 +19,10 @@ def run(bot, chat_id, user):
 def get_steamcharts_top_games():
     rawMarkup = urllib.urlopen('http://steamcharts.com/top').read()
     soup = BeautifulSoup(rawMarkup, 'html.parser')
-    hot_games = '*Most Popular Steam Games:*'
+    pop_games = '*Most Popular Steam Games:*'
     for resultRow in soup.findAll('td', attrs={'class':'game-name left'}):
-        hot_games += '\n' + resultRow.text.replace('\n', '').replace('\t', '').replace('_', ' ').replace('`', '').replace('*', '')
-    return hot_games
+        pop_games += '\n' + resultRow.text.replace('\n', '').replace('\t', '').replace('_', ' ').replace('`', '').replace('*', '')
+    return pop_games
 
 def steam_game_name_parser(code, link):
     soup = BeautifulSoup(code, 'html.parser')

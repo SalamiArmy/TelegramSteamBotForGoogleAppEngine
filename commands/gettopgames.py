@@ -19,10 +19,10 @@ def run(bot, chat_id, user):
 def get_steam_top_games():
     rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?filter=topsellers').read()
     soup = BeautifulSoup(rawMarkup, 'html.parser')
-    hot_games = '*Top Selling Steam Games:*'
+    top_games = '*Top Selling Steam Games:*'
     for resultRow in soup.findAll('span', attrs={'class':'title'}):
-        hot_games += '\n' + resultRow.text.replace('\n', '').replace('\t', '').replace('_', ' ').replace('`', '').replace('*', '')
-    return hot_games
+        top_games += '\n' + resultRow.text.replace('\n', '').replace('\t', '').replace('_', ' ').replace('`', '').replace('*', '')
+    return top_games
 
 def steam_game_name_parser(code, link):
     soup = BeautifulSoup(code, 'html.parser')
