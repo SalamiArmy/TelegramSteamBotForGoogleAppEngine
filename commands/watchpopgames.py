@@ -6,8 +6,8 @@ import main
 from commands.getpopgames import get_steamcharts_top_games
 
 watchedCommandName = 'getpopgames'.encode('utf-8')
-removed_games_title = '*Removed Games:*'.encode('utf-8')
-added_games_title = '*New Games:*'.encode('utf-8')
+removed_games_title = '\n*Removed Games:*'.encode('utf-8')
+added_games_title = '\n*New Games:*'.encode('utf-8')
 
 
 class WatchValue(ndb.Model):
