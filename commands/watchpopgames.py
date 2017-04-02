@@ -8,11 +8,13 @@ from commands.getpopgames import get_steamcharts_top_games
 watchedCommandName = 'getpopgames'.encode('utf-8')
 removed_games_title = '\n*Removed Games:*'.encode('utf-8')
 added_games_title = '\n*New Games:*'.encode('utf-8')
+newly_added_games_title = '\n(beta)*New New Games:*'.encode('utf-8')
 
 
 class WatchValue(ndb.Model):
     # key name: str(chat_id)
     currentValue = ndb.StringProperty(indexed=False, default='')
+    allPreviousAddedTitles = ndb.StringProperty(indexed=False, default='')
 
 
 # ================================
@@ -20,6 +22,14 @@ class WatchValue(ndb.Model):
 def setWatchValue(chat_id, NewValue):
     es = WatchValue.get_or_insert(watchedCommandName + ':' + str(chat_id))
     es.currentValue = NewValue
+    es.put()
+
+def addPreviouslyAddedTitlesValue(chat_id, NewValue):
+    es = WatchValue.get_or_insert(watchedCommandName + ':' + str(chat_id))
+    if (es.allPreviousAddedTitles != ''):
+        es.allPreviousAddedTitles += '\n' + NewValue
+    else:
+        es.allPreviousAddedTitles += NewValue
     es.put()
 
 
@@ -30,19 +40,39 @@ def getWatchValue(chat_id):
     return ''
 
 
-def get_add_removed_games(new_list, old_list):
+def getPreviouslyAddedTitlesValue(chat_id):
+    es = WatchValue.get_by_id(watchedCommandName + ':' + str(chat_id))
+    if es:
+        return es.allPreviousAddedTitles.encode('utf-8')
+    return ''
+
+def wasPreviouslyAddedTitle(chat_id, game_title):
+    allPreviousGames = getPreviouslyAddedTitlesValue(chat_id)
+    if '\n' + game_title + '\n' in allPreviousGames or \
+        allPreviousGames.startswith(game_title + '\n') or  \
+        allPreviousGames.endswith('\n' + game_title) or  \
+        allPreviousGames == game_title:
+        return True;
+    return False;
+
+
+def get_add_removed_games(chat_id, new_list, old_list):
     added_games = added_games_title
+    newly_added_games = newly_added_games_title
     for item in new_list.split('\n'):
         if item not in old_list:
             added_games += '\n' + item
+            if not wasPreviouslyAddedTitle(chat_id, item):
+                addPreviouslyAddedTitlesValue(item)
+                newly_added_games += '\n' + item
     removed_games = removed_games_title
     for item in old_list.split('\n'):
         if item not in new_list:
             removed_games += '\n' + item
-    return added_games, removed_games
+    return added_games, removed_games, newly_added_games
 
 
-def run(bot, chat_id, user):
+def run(bot, chat_id, user, keyConfig='', message=''):
     pop_games = get_steamcharts_top_games().encode('utf-8')
     if pop_games:
         OldValue = getWatchValue(chat_id)
@@ -54,11 +84,12 @@ def run(bot, chat_id, user):
                                     text='Now watching /' + watchedCommandName + '\n' + pop_games,
                                     parse_mode='Markdown')
             else:
-                games_added, games_removed = get_add_removed_games(pop_games, OldValue)
+                games_added, games_removed, newly_added_games = get_add_removed_games(chat_id, pop_games, OldValue)
                 message_text = 'Watch for /' + watchedCommandName + ' has changed' + (' order.' if (
                 games_added == added_games_title and games_removed == removed_games_title) else '.') + '\n' + pop_games + (
                         '\n' + games_added if games_added != added_games_title else '') + (
-                        '\n' + games_removed if games_removed != removed_games_title else '')
+                        '\n' + games_removed if games_removed != removed_games_title else '') + (
+                        '\n' + newly_added_games if newly_added_games != newly_added_games_title else '')
                 bot.sendMessage(chat_id=chat_id,
                                 text=message_text,
                                 parse_mode='Markdown')

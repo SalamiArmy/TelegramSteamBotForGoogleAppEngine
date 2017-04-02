@@ -5,7 +5,7 @@ import urllib2
 from bs4 import BeautifulSoup
 
 
-def run(bot, chat_id, user, requestText):
+def run(bot, chat_id, user, keyConfig='', requestText=''):
     if requestText == '':
         rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?category1=998&term=#').read()
         totalGames = steam_all_results_parser(rawMarkup).encode('utf-8')

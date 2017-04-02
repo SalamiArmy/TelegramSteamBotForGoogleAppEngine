@@ -124,7 +124,7 @@ class WebhookHandler(webapp2.RequestHandler):
             if text.startswith('/game'):
                 split = text[1:].lower().split(" ", 1)
                 try:
-                    getgame.run(bot, chat_id, user, split[1] if len(split) > 1 else '')
+                    getgame.run(bot, chat_id, user, '', split[1] if len(split) > 1 else '')
                 except:
                     print("Unexpected error running command:",  str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
             elif text.startswith('/gettopgames'):
