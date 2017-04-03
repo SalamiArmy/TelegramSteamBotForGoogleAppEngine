@@ -63,7 +63,7 @@ def get_add_removed_games(chat_id, new_list, old_list):
         if item not in old_list:
             added_games += '\n' + item
             if not wasPreviouslyAddedTitle(chat_id, item):
-                addPreviouslyAddedTitlesValue(item)
+                addPreviouslyAddedTitlesValue(chat_id, item)
                 newly_added_games += '\n' + item
     removed_games = removed_games_title
     for item in old_list.split('\n'):
