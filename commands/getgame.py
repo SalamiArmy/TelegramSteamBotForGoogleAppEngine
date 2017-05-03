@@ -25,10 +25,10 @@ def run(bot, chat_id, user, keyConfig='', requestText='', totalResults=1):
         steamGameLink = 'http://store.steampowered.com/app/' + appId
         bypassAgeGate = urllib2.build_opener()
         #this bypasses the "mature content - continue/cancel" screen
-        bypassAgeGate.addheaders.append(('Cookie', 'mature_content=1; path=/; max-age=31536000;expires=Fri, 24 Mar 2027 20:00:00 GMT'))
+        bypassAgeGate.addheaders.append(('Cookie', 'mature_content=1; path=/; max-age=31536000;expires=Fri, 26 Mar 2027 20:00:00 GMT'))
         bypassAgeGate.open(steamGameLink)
         #this bypasses the "enter your date of birth" screen
-        bypassAgeGate.addheaders.append(('Cookie', 'birthtime=0; path=/; max-age=31536000;expires=Fri, 24 Mar 2027 20:00:00 GMT'))
+        bypassAgeGate.addheaders.append(('Cookie', 'birthtime=0; path=/; max-age=31536000;expires=Fri, 26 Mar 2027 20:00:00 GMT'))
         code = bypassAgeGate.open(steamGameLink).read()
         if 'id=\"app_agegate\"' in code:
             gameTitle = steam_age_gate_parser(code)
