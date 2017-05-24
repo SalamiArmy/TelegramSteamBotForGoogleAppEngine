@@ -1,4 +1,5 @@
 # coding=utf-8
+import json
 import urllib
 import urllib2
 
@@ -42,8 +43,16 @@ def run(bot, chat_id, user, keyConfig='', requestText='', totalResults=1):
         return True
     else:
         bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
-                                              ', I\'m afraid I can\'t find the steam game ' + \
+                                              ', I\'m afraid I can\'t find the game ' + \
                                               requestText.encode('utf-8'))
+        rawMarkup = urllib.urlopen('http://www.gog.com/games?sort=date&search=' + requestText).read()
+        appId = gog_results_parser(rawMarkup)
+        if appId:
+            gogGameLink = 'http://api.gog.com/products/' + appId
+            data = json.load(gogGameLink)
+            gameResults = gog_game_parser(data)
+            bot.sendMessage(chat_id=chat_id, text=gameResults,
+                            disable_web_page_preview=True, parse_mode='Markdown')
 
 
 def steam_results_parser(rawMarkup):
@@ -60,8 +69,11 @@ def steam_results_parser(rawMarkup):
 
 def steam_all_results_parser(rawMarkup):
     soup = BeautifulSoup(rawMarkup, 'html.parser')
-    rawPaginationString = soup.find('div', attrs={'class':'search_pagination_left'}).string
-    return rawPaginationString.replace('showing 1 - 25 of', '').strip()
+    findPaginationString = soup.find('div', attrs={'class': 'search_pagination_left'})
+    if findPaginationString:
+        rawPaginationString = findPaginationString.string
+        return rawPaginationString.replace('showing 1 - 25 of', '').strip()
+    return 'uncountable'
 
 def steam_age_gate_parser(rawMarkup):
     soup = BeautifulSoup(rawMarkup, 'html.parser')
@@ -152,3 +164,13 @@ class NoRedirectHandler(urllib2.HTTPRedirectHandler):
     http_error_301 = http_error_302
     http_error_303 = http_error_302
     http_error_307 = http_error_302
+
+def gog_results_parser(rawHtml):
+    soup = BeautifulSoup(rawHtml, 'html.parser')
+    gameDiv = soup.find('div', attrs={'class':'product-row'})
+    if gameDiv:
+        return gameDiv.attrs['gog-product']
+    return ''
+
+def gog_game_parser(data):
+    return data[0]

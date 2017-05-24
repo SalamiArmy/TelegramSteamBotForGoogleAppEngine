@@ -15,7 +15,7 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, chatId, 'Admin', requestText)
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
 
     def test_getgame_with_vrregatta(self):
         requestText = 'VR Regatta'
@@ -25,7 +25,7 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, chatId, 'Admin', requestText)
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
 
     def test_getgame_with_halflife1(self):
         requestText = 'Half-Life 1'
@@ -35,7 +35,7 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, chatId, 'Admin', requestText)
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
 
     def test_getgame_with_csgo(self):
         requestText = 'csgo'
@@ -45,7 +45,7 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, chatId, 'Admin', requestText)
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
 
     def test_getgame_with_cs(self):
         requestText = 'cs'
@@ -55,7 +55,7 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, chatId, 'Admin', requestText)
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
 
     def test_getgame_with_rawdata(self):
         requestText = 'raw data'
@@ -65,7 +65,7 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, chatId, 'Admin', requestText)
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
 
     def test_getgame_with_wehappyfew(self):
         requestText = 'we happy few'
@@ -75,7 +75,7 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, chatId, 'Admin', requestText)
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
 
     def test_getgame_with_shadowwarrior(self):
         requestText = 'shadow warrior'
@@ -85,7 +85,7 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, chatId, 'Admin', requestText)
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
 
     def test_getgame_with_blank(self):
         requestText = ''
@@ -95,7 +95,7 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, chatId, 'Admin', requestText)
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
 
     def test_getgame_with_thisisthepolice(self):
         requestText = 'this is the police'
@@ -105,7 +105,7 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, chatId, 'Admin', requestText)
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
 
     def test_getgame_with_mysummercar(self):
         requestText = 'my summer car'
@@ -115,10 +115,20 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        getgame.run(bot, chatId, 'Admin', requestText)
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
 
     def test_getgame_with_blank(self):
         requestText = ''
+
+        keyConfig = ConfigParser.ConfigParser()
+        keyConfig.read(["keys.ini", "..\keys.ini"])
+        bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
+        chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
+
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
+
+    def test_getgame_with_unreal_tournament(self):
+        requestText = 'Unreal Tournament 2004'
 
         keyConfig = ConfigParser.ConfigParser()
         keyConfig.read(["keys.ini", "..\keys.ini"])
