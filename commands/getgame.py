@@ -190,5 +190,16 @@ def gog_game_parser(data, price, discount):
 
     if 'description' in data and 'full' in data['description']:
         descriptionSnippet = data['description']['full']
-        AllGameDetailsFormatted += descriptionSnippet.replace('<br>', '').replace('<b>', '*').replace('</b>', '*') + '\n'
+        AllGameDetailsFormatted += descriptionSnippet\
+                                       .replace('*','')\
+                                       .replace('<br>', '')\
+                                       .replace('<b>', '*')\
+                                       .replace('</b>', '*') + '\n'
+
+    #if 'links' in data and 'product_card' in data['links']:
+    #    AllGameDetailsFormatted += data['links']['product_card'] + '\n'
+
+    #if 'release_date' in data:
+    #    AllGameDetailsFormatted += 'Release Date: ' + data['release_date'] + '\n'
+
     return AllGameDetailsFormatted
