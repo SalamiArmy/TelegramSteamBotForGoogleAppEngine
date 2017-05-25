@@ -42,17 +42,18 @@ def run(bot, chat_id, user, keyConfig='', requestText='', totalResults=1):
                         disable_web_page_preview=True, parse_mode='Markdown')
         return True
     else:
-        bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
-                                              ', I\'m afraid I can\'t find the game ' + \
-                                              requestText.encode('utf-8'))
-        rawMarkup = urllib.urlopen('http://www.gog.com/games?sort=date&search=' + requestText).read()
-        appId = gog_results_parser(rawMarkup)
+        gogSearchData = json.load(urllib.urlopen('http://embed.gog.com/games/ajax/filtered?mediaType=game&search=' + requestText))
+        appId, price, discount = gog_results_parser(gogSearchData)
         if appId:
-            gogGameLink = 'http://api.gog.com/products/' + appId
-            data = json.load(gogGameLink)
-            gameResults = gog_game_parser(data)
+            gogGameLink = 'http://api.gog.com/products/' + str(appId) + '?expand=downloads,expanded_dlcs,description,screenshots,videos,related_products,changelog'
+            data = json.load(urllib.urlopen(gogGameLink))
+            gameResults = gog_game_parser(data, price, discount)
             bot.sendMessage(chat_id=chat_id, text=gameResults,
                             disable_web_page_preview=True, parse_mode='Markdown')
+        else:
+            bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
+                                                  ', I\'m afraid I can\'t find the game ' + \
+                                                  requestText.encode('utf-8'))
 
 
 def steam_results_parser(rawMarkup):
@@ -165,12 +166,29 @@ class NoRedirectHandler(urllib2.HTTPRedirectHandler):
     http_error_303 = http_error_302
     http_error_307 = http_error_302
 
-def gog_results_parser(rawHtml):
-    soup = BeautifulSoup(rawHtml, 'html.parser')
-    gameDiv = soup.find('div', attrs={'class':'product-row'})
-    if gameDiv:
-        return gameDiv.attrs['gog-product']
+def gog_results_parser(searchData):
+    if len(searchData['products']) > 0:
+        firstResult = searchData['products'][0]
+        if 'id' in firstResult:
+            return firstResult['id'], firstResult['price']['finalAmount'], firstResult['price']['discountPercentage']
     return ''
 
-def gog_game_parser(data):
-    return data[0]
+def gog_game_parser(data, price, discount):
+    AllGameDetailsFormatted = ''
+    if 'title' in data:
+        gameTitle = data['title']
+        AllGameDetailsFormatted += '*' + gameTitle
+    else:
+        raise Exception('Cannot parse title from gog api object for this game.')
+    if price > 0:
+        AllGameDetailsFormatted += ' - ' + str(price) + '$'
+    else:
+        AllGameDetailsFormatted += ' - free to play'
+    if discount > 0:
+        AllGameDetailsFormatted += ' (at ' + discount + '% off)'
+    AllGameDetailsFormatted += '*\n'
+
+    if 'description' in data and 'full' in data['description']:
+        descriptionSnippet = data['description']['full']
+        AllGameDetailsFormatted += descriptionSnippet.replace('<br>', '').replace('<b>', '*').replace('</b>', '*') + '\n'
+    return AllGameDetailsFormatted
