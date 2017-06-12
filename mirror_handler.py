@@ -160,11 +160,10 @@ class MirroredContent(object):
     """
     logging.debug("Fetching '%s'", mirrored_url)
     try:
-      #if postdata:
-      #  response = urlfetch.fetch(mirrored_url, urllib.urlencode(postdata), urlfetch.POST)
-      #else:
-      print(postdata)
-      response = urlfetch.fetch(mirrored_url)
+      if postdata:
+        response = urlfetch.fetch(mirrored_url, urllib.urlencode(postdata), urlfetch.POST)
+      else:
+        response = urlfetch.fetch(mirrored_url)
     except (urlfetch.Error, apiproxy_errors.Error):
       logging.exception("Could not fetch URL")
       return None
