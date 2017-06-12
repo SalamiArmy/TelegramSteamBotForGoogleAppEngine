@@ -1,5 +1,6 @@
 import os
 import re
+import urllib
 import urlparse
 import hashlib
 
@@ -144,7 +145,7 @@ class MirroredContent(object):
     return memcache.get(key_name)
 
   @staticmethod
-  def fetch_and_store(key_name, base_url, translated_address, mirrored_url):
+  def fetch_and_store(key_name, base_url, translated_address, mirrored_url, postdata=None):
     """Fetch and cache a page.
     Args:
       key_name: Hash to use to store the cached page.
@@ -152,13 +153,17 @@ class MirroredContent(object):
       translated_address: The URL of the mirrored page on this site.
       mirrored_url: The URL of the original page. Hostname should match
         the base_url.
+      postdata: If there is any.
     Returns:
       A new MirroredContent object, if the page was successfully retrieved.
       None if any errors occurred or the content could not be retrieved.
     """
     logging.debug("Fetching '%s'", mirrored_url)
     try:
-      response = urlfetch.fetch(mirrored_url)
+      if postdata:
+        response = urlfetch.fetch(mirrored_url, urllib.urlencode(postdata), urlfetch.POST)
+      else:
+        response = urlfetch.fetch(mirrored_url)
     except (urlfetch.Error, apiproxy_errors.Error):
       logging.exception("Could not fetch URL")
       return None
@@ -235,9 +240,7 @@ class MirrorHandler(BaseHandler):
     if content is None:
       logging.debug("Cache miss")
       cache_miss = True
-      content = MirroredContent.fetch_and_store(key_name, base_url,
-                                                translated_address,
-                                                mirrored_url)
+      content = MirroredContent.fetch_and_store(key_name, base_url, translated_address, mirrored_url)
     if content is None:
       return self.error(404)
 
@@ -250,7 +253,5 @@ class MirrorHandler(BaseHandler):
     self.response.out.write(content.data)
 
   def post(self, base_url):
-      #postdata = self.request.arguments()
       postdata = dict([(x,self.request.get(x)) for x in self.request.arguments()])
-      #logging.error(str(postdata))
       self.get(base_url, postdata)
