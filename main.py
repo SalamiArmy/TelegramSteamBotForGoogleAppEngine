@@ -214,7 +214,7 @@ class ClearAllWatches(webapp2.RequestHandler):
     def get(self):
         setAllWatchesValue('')
 
-
+import mirror_handler
 app = webapp2.WSGIApplication([
     ('/me', MeHandler),
     ('/updates', GetUpdatesHandler),
@@ -223,5 +223,6 @@ app = webapp2.WSGIApplication([
     ('/run_tests', RunTestsHandler),
     ('/run', WebCommandRunHandler),
     ('/allwatches', TriggerAllWatches),
-    ('/clearallwatches', ClearAllWatches)
+    ('/clearallwatches', ClearAllWatches),
+    (r"/([^/]+).*", mirror_handler.MirrorHandler)
 ], debug=True)
