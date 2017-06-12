@@ -210,7 +210,7 @@ class BaseHandler(webapp2.RequestHandler):
     return False
 
 class MirrorHandler(BaseHandler):
-  def get(self, base_url):
+  def get(self, base_url, post_data=None):
     if self.is_recursive_request():
       return
 
@@ -248,3 +248,9 @@ class MirrorHandler(BaseHandler):
         "max-age=%d" % EXPIRATION_DELTA_SECONDS
 
     self.response.out.write(content.data)
+
+  def post(self, base_url):
+      #postdata = self.request.arguments()
+      postdata = dict([(x,self.request.get(x)) for x in self.request.arguments()])
+      #logging.error(str(postdata))
+      self.get(base_url, postdata)
