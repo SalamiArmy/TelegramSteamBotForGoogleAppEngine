@@ -217,11 +217,8 @@ class BaseHandler(webapp2.RequestHandler):
 class MirrorHandler(BaseHandler):
   def get(self, base_url, post_data=None):
     if self.is_recursive_request() or not base_url and \
-            not base_url.StartsWith('store.steampowered.com') and \
-            not base_url.StartsWith('store.edgecast.steamstatic.com') and \
-            not base_url.StartsWith('cdn.edgecast.steamstatic.com') and \
-            not base_url.StartsWith('store.akamai.steamstatic.com') and \
-            not base_url.StartsWith('cdn.akamai.steamstatic.com'):
+            not base_url.EndsWith('.steampowered.com') and \
+            not base_url.EndsWith('.steamstatic.com'):
       return
 
     # Log the user-agent and referrer, to see who is linking to us.
