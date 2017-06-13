@@ -243,7 +243,7 @@ class MirrorHandler(BaseHandler):
     if content is None:
       logging.debug("Cache miss")
       cache_miss = True
-      content = MirroredContent.fetch_and_store(key_name, base_url, translated_address, mirrored_url)
+      content = MirroredContent.fetch_and_store(key_name, base_url, translated_address, mirrored_url, post_data)
     if content is None:
       return self.error(404)
 
