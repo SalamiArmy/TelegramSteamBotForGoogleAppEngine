@@ -224,5 +224,5 @@ app = webapp2.WSGIApplication([
     ('/run', WebCommandRunHandler),
     ('/allwatches', TriggerAllWatches),
     ('/clearallwatches', ClearAllWatches),
-    ('\/(store\.steampowered\.com)\/app\/[^\/]+.*', mirror_handler.MirrorHandler)
+    ('\/([^\/]+).*', mirror_handler.MirrorHandler)
 ], debug=True)

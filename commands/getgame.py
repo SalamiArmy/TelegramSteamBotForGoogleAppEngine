@@ -8,19 +8,21 @@ from bs4 import BeautifulSoup
 
 def run(bot, chat_id, user, keyConfig='', requestText='', totalResults=1):
     if requestText == '':
-        rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?category1=998&term=#').read()
-        totalGames = steam_all_results_parser(rawMarkup).encode('utf-8')
-        if totalGames != '':
+
+        totalSteamGames = int(Get_steam_total())
+        totalGOGGames = int(Get_GOG_total())
+        if totalSteamGames != '':
             bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
-                                                  ', there are ' + totalGames + ' total games on steam. Pick one.')
+                                                  ', there are ' + (totalSteamGames + totalGOGGames) +
+                                                  ' total games on Steam and GOG combined. Pick one.')
             return True
 
     retryCount = 3
     appId = ''
     while retryCount > 0 and appId == '':
         retryCount -= 1
-        rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?category1=998&term=' + requestText).read()
-        appId = steam_results_parser(rawMarkup)
+        rawSteamSearchResultsMarkup = urllib.urlopen('http://store.steampowered.com/search/?category1=998&term=' + requestText).read()
+        appId = steam_results_parser(rawSteamSearchResultsMarkup)
 
     if appId:
         steamGameLink = 'http://store.steampowered.com/app/' + appId
@@ -68,12 +70,19 @@ def steam_results_parser(rawMarkup):
         return resultList[0]
     return ''
 
-def steam_all_results_parser(rawMarkup):
+def Get_steam_total():
+    rawMarkup = urllib.urlopen('http://store.steampowered.com/search/?category1=998&term=#').read()
     soup = BeautifulSoup(rawMarkup, 'html.parser')
     findPaginationString = soup.find('div', attrs={'class': 'search_pagination_left'})
     if findPaginationString:
         rawPaginationString = findPaginationString.string
         return rawPaginationString.replace('showing 1 - 25 of', '').strip()
+    return 'uncountable'
+
+def Get_GOG_total():
+    GogSearchResultsData = json.load(urllib.urlopen('http://embed.gog.com/games/ajax/filtered?mediaType=game&sort=bestselling'))
+    if 'totalGamesFound' in GogSearchResultsData:
+        return GogSearchResultsData['totalGamesFound']
     return 'uncountable'
 
 def steam_age_gate_parser(rawMarkup):
