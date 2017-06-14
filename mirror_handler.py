@@ -145,7 +145,7 @@ class MirroredContent(object):
     return memcache.get(key_name)
 
   @staticmethod
-  def fetch_and_store(key_name, base_url, translated_address, mirrored_url, postdata=None):
+  def fetch_and_store(key_name, base_url, translated_address, mirrored_url, postdata=None, headers=None):
     """Fetch and cache a page.
     Args:
       key_name: Hash to use to store the cached page.
@@ -160,8 +160,12 @@ class MirroredContent(object):
     """
     logging.debug("Fetching '%s'", mirrored_url)
     try:
-      if postdata:
+      if postdata and headers:
+        response = urlfetch.fetch(mirrored_url, urllib.urlencode(postdata), urlfetch.POST, headers)
+      elif postdata:
         response = urlfetch.fetch(mirrored_url, urllib.urlencode(postdata), urlfetch.POST)
+      elif headers:
+        response = urlfetch.fetch(mirrored_url, urllib.urlencode(postdata), urlfetch.GET, headers)
       else:
         response = urlfetch.fetch(mirrored_url)
     except (urlfetch.Error, apiproxy_errors.Error):
@@ -215,7 +219,7 @@ class BaseHandler(webapp2.RequestHandler):
     return False
 
 class MirrorHandler(BaseHandler):
-  def get(self, base_url, post_data=None):
+  def get(self, base_url):
     if self.is_recursive_request() or not base_url and \
             not base_url.EndsWith('.steampowered.com') and \
             not base_url.EndsWith('.steamstatic.com'):
@@ -240,7 +244,8 @@ class MirrorHandler(BaseHandler):
     if content is None:
       logging.debug("Cache miss")
       cache_miss = True
-      content = MirroredContent.fetch_and_store(key_name, base_url, translated_address, mirrored_url, post_data)
+      post_data = dict([(x,self.request.get(x)) for x in self.request.arguments()])
+      content = MirroredContent.fetch_and_store(key_name, base_url, translated_address, mirrored_url, post_data, self.request.headers)
     if content is None:
       return self.error(404)
 
@@ -253,5 +258,4 @@ class MirrorHandler(BaseHandler):
     self.response.out.write(content.data)
 
   def post(self, base_url):
-      postdata = dict([(x,self.request.get(x)) for x in self.request.arguments()])
-      self.get(base_url, postdata)
+      self.get(base_url)
