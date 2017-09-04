@@ -30,10 +30,10 @@ class TestWatchBitcoin(unittest.TestCase):
         keyConfig = ConfigParser.ConfigParser()
         keyConfig.read(["keys.ini", "..\keys.ini"])
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
-        chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
+        chatId = keyConfig.get('BotAdministration', 'ADMIN_PRIVATE_CHAT_ID')
 
         #for bot group:
         #chatId = -130436192
 
         #watchpopgames.setWatchValue(chatId, 'NieR:Automata™\nTom Clancy\'s Ghost Recon® Wildlands\nTotal War: WARHAMMER\nH1Z1: King of the Kill\nCounter-Strike: Global Offensive\nDOOM\nBorderlands 2\nGrim Dawn\nXCOM® 2\nRocket League®\nSid Meier’s Civilization® VI\nHITMAN™\nGrand Theft Auto V\nMafia III\nARK: Survival Evolved\nNBA 2K17\nRimWorld\nSpider-Man™: Shattered Dimensions\nFOR HONOR™\nSid Meier\'s Civilization® V')
-        watchpopgames.run(bot, keyConfig, chatId, 'SalamiArmy')
+        watchpopgames.run(bot, chatId, 'SalamiArmy')

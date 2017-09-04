@@ -1,8 +1,6 @@
 # coding=utf-8
 
 from google.appengine.ext import ndb
-
-import main
 from commands.getpopgames import get_steamcharts_top_games
 
 watchedCommandName = 'getpopgames'.encode('utf-8')
@@ -98,6 +96,7 @@ def run(bot, chat_id, user, keyConfig='', message=''):
                 bot.sendMessage(chat_id=chat_id,
                                 text='Watch for /' + watchedCommandName + ' has not changed:\n' + pop_games,
                                 parse_mode='Markdown')
+        import main
         if not main.AllWatchesContains(watchedCommandName, chat_id):
             main.addToAllWatches(watchedCommandName, chat_id)
     else:

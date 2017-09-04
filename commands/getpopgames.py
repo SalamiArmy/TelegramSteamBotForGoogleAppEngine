@@ -1,7 +1,5 @@
 # coding=utf-8
 import urllib
-import urllib2
-
 from bs4 import BeautifulSoup
 
 
@@ -17,12 +15,20 @@ def run(bot, chat_id, user, keyConfig='', message=''):
 
 
 def get_steamcharts_top_games():
-    rawMarkup = urllib.urlopen('http://steamcharts.com/top').read()
+    game_names = '*Most Popular Steam Games:*'
+    for i in range(1, 8):
+        rawMarkup = urllib.urlopen('http://steamcharts.com/top/p.' + str(i)).read()
+        game_names += parse_game_names(rawMarkup)
+    return game_names
+
+
+def parse_game_names(rawMarkup):
     soup = BeautifulSoup(rawMarkup, 'html.parser')
-    pop_games = '*Most Popular Steam Games:*'
-    for resultRow in soup.findAll('td', attrs={'class':'game-name left'}):
-        pop_games += '\n' + resultRow.text.replace('\n', '').replace('\t', '').replace('_', ' ').replace('`', '').replace('*', '')
-    return pop_games
+    game_names= ''
+    for resultRow in soup.findAll('td', attrs={'class': 'game-name left'}):
+        game_names += '\n' + resultRow.text.replace('\n', '').replace('\t', '').replace('_', ' ').replace('`', '').replace('*', '')
+    return game_names
+
 
 def steam_game_name_parser(code, link):
     soup = BeautifulSoup(code, 'html.parser')
