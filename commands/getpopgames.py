@@ -1,10 +1,13 @@
 # coding=utf-8
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 import urllib
 from bs4 import BeautifulSoup
 
 
 def run(bot, chat_id, user, keyConfig='', message=''):
-    gameResults = get_steamcharts_top_games().encode('utf-8')
+    gameResults = get_steamcharts_top_games()
     if gameResults:
         bot.sendMessage(chat_id=chat_id, text=gameResults,
                         disable_web_page_preview=True, parse_mode='Markdown')

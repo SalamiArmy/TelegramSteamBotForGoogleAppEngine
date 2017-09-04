@@ -2,7 +2,6 @@
 
 from google.appengine.ext import ndb
 
-import main
 from commands.gettopgames import get_steam_top_games
 
 watchedCommandName = 'gettopgames'.encode('utf-8')
@@ -30,7 +29,7 @@ def addPreviouslyAddedTitlesValue(chat_id, NewValue):
         print('adding ' + str(NewValue))
         es.allPreviousAddedTitles += '\n' + str(NewValue)
     else:
-        es.allPreviousAddedTitles += str(NewValue)
+        es.allPreviousAddedTitles += NewValue
     es.put()
 
 
@@ -99,6 +98,7 @@ def run(bot, chat_id, user, keyConfig='', message=''):
                 bot.sendMessage(chat_id=chat_id,
                                 text='Watch for /' + watchedCommandName + ' has not changed:\n' + top_games,
                                 parse_mode='Markdown')
+        import main
         if not main.AllWatchesContains(watchedCommandName, chat_id):
             main.addToAllWatches(watchedCommandName, chat_id)
     else:

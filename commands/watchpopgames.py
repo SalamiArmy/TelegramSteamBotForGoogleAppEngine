@@ -1,12 +1,14 @@
 # coding=utf-8
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 from google.appengine.ext import ndb
 from commands.getpopgames import get_steamcharts_top_games
 
-watchedCommandName = 'getpopgames'.encode('utf-8')
-removed_games_title = '\n*Removed Games:*'.encode('utf-8')
-added_games_title = '\n*New Games:*'.encode('utf-8')
-newly_added_games_title = '\n(beta)*New New Games:*'.encode('utf-8')
+watchedCommandName = 'getpopgames'
+removed_games_title = '\n*Removed Games:*'
+added_games_title = '\n*New Games:*'
+newly_added_games_title = '\n(beta)*New New Games:*'
 
 
 class WatchValue(ndb.Model):
@@ -26,23 +28,23 @@ def addPreviouslyAddedTitlesValue(chat_id, NewValue):
     es = WatchValue.get_or_insert(watchedCommandName + ':' + str(chat_id))
     if (es.allPreviousAddedTitles != ''):
         print('adding ' + str(NewValue))
-        es.allPreviousAddedTitles += '\n' + str(NewValue)
+        es.allPreviousAddedTitles += '\n' + NewValue
     else:
-        es.allPreviousAddedTitles += str(NewValue.encode)
+        es.allPreviousAddedTitles += NewValue
     es.put()
 
 
 def getWatchValue(chat_id):
     es = WatchValue.get_by_id(watchedCommandName + ':' + str(chat_id))
     if es:
-        return es.currentValue.encode('utf-8')
+        return es.currentValue
     return ''
 
 
 def getPreviouslyAddedTitlesValue(chat_id):
     es = WatchValue.get_by_id(watchedCommandName + ':' + str(chat_id))
     if es:
-        return es.allPreviousAddedTitles.encode('utf-8')
+        return es.allPreviousAddedTitles
     return ''
 
 def wasPreviouslyAddedTitle(chat_id, game_title):
