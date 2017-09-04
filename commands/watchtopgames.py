@@ -27,6 +27,7 @@ def setWatchValue(chat_id, NewValue):
 def addPreviouslyAddedTitlesValue(chat_id, NewValue):
     es = WatchValue.get_or_insert(watchedCommandName + ':' + str(chat_id))
     if (es.allPreviousAddedTitles != ''):
+        print('adding ' + str(NewValue))
         es.allPreviousAddedTitles += '\n' + str(NewValue)
     else:
         es.allPreviousAddedTitles += str(NewValue)
