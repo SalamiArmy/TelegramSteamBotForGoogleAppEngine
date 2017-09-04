@@ -205,7 +205,7 @@ class TriggerAllWatches(webapp2.RequestHandler):
                     print('executing command: ' + split[1].replace('get', ''))
                     mod = importlib.import_module('commands.watch' + split[1].replace('get', ''))
                     chat_id = split[0]
-                    mod.run(bot, chat_id, 'Watcher')
+                    mod.run(bot, str(chat_id), 'Watcher')
                 else:
                     print('removing from all watches: ' + watch)
                     removeFromAllWatches(watch)
