@@ -121,6 +121,7 @@ class WebhookHandler(webapp2.RequestHandler):
                 return
 
             text = text.replace(bot.name, '').strip()
+            print('got text ' + text)
             if text.startswith('/game'):
                 split = text[1:].lower().split(" ", 1)
                 try:
