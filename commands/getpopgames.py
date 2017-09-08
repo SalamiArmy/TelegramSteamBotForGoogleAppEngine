@@ -17,13 +17,12 @@ def run(bot, chat_id, user, keyConfig='', message=''):
                                               ', I\'m afraid I can\'t find any popular steam games.')
 
 
-def get_steamcharts_top_games():
+def get_steamcharts_top_games(total_pages=1):
     game_names = '*Most Popular Steam Games:*'
-    for i in range(1, 8):
+    for i in range(1, total_pages):
         rawMarkup = urllib.urlopen('http://steamcharts.com/top/p.' + str(i)).read()
         game_names += parse_game_names(rawMarkup)
     return game_names
-
 
 def parse_game_names(rawMarkup):
     soup = BeautifulSoup(rawMarkup, 'html.parser')

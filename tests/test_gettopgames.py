@@ -39,4 +39,4 @@ class TestGetGame(unittest.TestCase):
         keyConfig.read(["keys.ini", "..\keys.ini"])
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
-        addPreviouslyAddedTitlesValue(chatId, 'DARK SOULS™ III')
+        addPreviouslyAddedTitlesValue(chatId, u'DARK SOULS™ III')
