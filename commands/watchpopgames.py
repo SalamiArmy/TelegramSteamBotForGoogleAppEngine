@@ -57,18 +57,14 @@ def wasPreviouslyAddedTitle(chat_id, game_title):
     return False;
 
 
-def get_add_removed_games(chat_id, new_list, old_list):
+def get_added_games(chat_id, new_list, old_list):
     added_games = added_games_title
     for item in new_list.split('\n'):
         if item not in old_list:
             added_games += '\n' + item
             if not wasPreviouslyAddedTitle(chat_id, item):
                 addPreviouslyAddedTitlesValue(chat_id, item)
-    removed_games = removed_games_title
-    for item in old_list.split('\n'):
-        if item not in new_list:
-            removed_games += '\n' + item
-    return added_games, removed_games
+    return added_games
 
 
 def run(bot, chat_id, user, keyConfig='', message=''):
@@ -76,7 +72,7 @@ def run(bot, chat_id, user, keyConfig='', message=''):
     if pop_games:
         setWatchValue(chat_id, pop_games)
         OldValue = getWatchValue(chat_id)
-        games_added, games_removed = get_add_removed_games(chat_id, pop_games, OldValue)
+        games_added = get_added_games(chat_id, pop_games, OldValue)
         if games_added != added_games_title:
             if OldValue == '':
                 if user != 'Watcher':
