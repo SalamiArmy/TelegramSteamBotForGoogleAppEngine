@@ -37,7 +37,7 @@ def addPreviouslyAddedTitlesValue(chat_id, NewValue):
 def getWatchValue(chat_id):
     es = WatchValue.get_by_id(watchedCommandName + ':' + str(chat_id))
     if es:
-        return es.currentValue
+        return str(es.currentValue)
     return ''
 
 
@@ -60,7 +60,7 @@ def wasPreviouslyAddedTitle(chat_id, game_title):
 def get_added_games(chat_id, new_list, old_list):
     added_games = added_games_title
     for item in new_list.split('\n'):
-        if item not in old_list:
+        if item not in old_list and not wasPreviouslyAddedTitle(chat_id, item):
             added_games += '\n' + item
             if not wasPreviouslyAddedTitle(chat_id, item):
                 addPreviouslyAddedTitlesValue(chat_id, item)
