@@ -19,8 +19,8 @@ def run(bot, chat_id, user, keyConfig='', message=''):
 
 def get_steamcharts_top_games(total_pages=1):
     game_names = '*Most Popular Steam Games:*'
-    for i in range(1, total_pages):
-        rawMarkup = urllib.urlopen('http://steamcharts.com/top/p.' + str(i)).read()
+    for i in range(0, total_pages):
+        rawMarkup = urllib.urlopen('http://steamcharts.com/top/p.' + str(i+1)).read()
         game_names += parse_game_names(rawMarkup)
     return game_names
 
