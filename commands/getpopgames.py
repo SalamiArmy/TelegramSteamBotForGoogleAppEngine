@@ -26,7 +26,7 @@ def get_steamcharts_top_games(total_pages=1):
 
 def parse_game_names(rawMarkup):
     soup = BeautifulSoup(rawMarkup, 'html.parser')
-    game_names= ''
+    game_names = ''
     for resultRow in soup.findAll('td', attrs={'class': 'game-name left'}):
         game_names += '\n' + resultRow.text.replace('\n', '').replace('\t', '').replace('_', ' ').replace('`', '').replace('*', '')
     return game_names

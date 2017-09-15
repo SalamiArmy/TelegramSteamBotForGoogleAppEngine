@@ -1,3 +1,4 @@
+# coding=utf-8
 import ConfigParser
 import unittest
 
@@ -139,6 +140,16 @@ class TestGetGame(unittest.TestCase):
 
     def test_getgame_with_gholf_it(self):
         requestText = 'gholf it!'
+
+        keyConfig = ConfigParser.ConfigParser()
+        keyConfig.read(["keys.ini", "..\keys.ini"])
+        bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
+        chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
+
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
+
+    def test_getgame_with_LEGO_MARVEL_Super_Heroes(self):
+        requestText = u'LEGO® MARVEL Super Heroes'
 
         keyConfig = ConfigParser.ConfigParser()
         keyConfig.read(["keys.ini", "..\keys.ini"])
