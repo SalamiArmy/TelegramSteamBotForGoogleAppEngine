@@ -180,7 +180,7 @@ def gog_results_parser(searchData):
         firstResult = searchData['products'][0]
         if 'id' in firstResult:
             return firstResult['id'], firstResult['price']['finalAmount'], firstResult['price']['discountPercentage']
-    return ''
+    return '', '', ''
 
 def gog_game_parser(data, price, discount):
     AllGameDetailsFormatted = ''
