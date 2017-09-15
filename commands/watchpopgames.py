@@ -71,7 +71,7 @@ def run(bot, chat_id, user, keyConfig='', message=''):
     pop_games = get_steamcharts_top_games(20).encode('utf-8')
     if pop_games:
         setWatchValue(chat_id, pop_games)
-        OldValue = getWatchValue(chat_id)
+        OldValue = getPreviouslyAddedTitlesValue(chat_id)
         games_added = get_added_games(chat_id, pop_games, OldValue)
         if games_added != added_games_title:
             if OldValue == '':
@@ -95,8 +95,7 @@ def run(bot, chat_id, user, keyConfig='', message=''):
             main.addToAllWatches(watchedCommandName, chat_id)
     else:
         bot.sendMessage(chat_id=chat_id,
-                        text='I\'m sorry ' + (user if not user == '' else 'Dave') +
-                             ', I\'m afraid I can\'t watch ' +
+                        text='I\'m sorry ' + (user if not user == '' else 'Dave') + ', I\'m afraid I can\'t watch ' +
                              'because I did not find any results from /' + watchedCommandName,
                         parse_mode='Markdown')
 
