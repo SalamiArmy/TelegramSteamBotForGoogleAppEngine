@@ -105,7 +105,7 @@ class WebhookHandler(webapp2.RequestHandler):
 
         if 'message' in body:
             message = body['message']
-            text = message.get('text')
+            text = str(message.get('text'))
             fr = message.get('from')
             user = fr['username'] \
                 if 'username' in fr \

@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 
 def run(bot, chat_id, user, keyConfig='', message='', totalResults=1):
-    requestText = str(totalResults)
+    requestText = str(message)
     if requestText == '':
 
         totalSteamGames = int(Get_steam_total())
