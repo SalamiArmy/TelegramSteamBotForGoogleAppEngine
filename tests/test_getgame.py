@@ -157,3 +157,13 @@ class TestGetGame(unittest.TestCase):
         chatId = keyConfig.get('BotAdministration', 'ADMIN_GROUP_CHAT_ID')
 
         getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
+
+    def test_getgame_with_Raiders_of_the_Broken_Planet(self):
+        requestText = u'Raiders of the Broken Planet'
+
+        keyConfig = ConfigParser.ConfigParser()
+        keyConfig.read(["keys.ini", "..\keys.ini"])
+        bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
+        chatId = keyConfig.get('BotAdministration', 'ADMIN_PRIVATE_CHAT_ID')
+
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
