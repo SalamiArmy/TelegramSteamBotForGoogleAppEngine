@@ -167,3 +167,13 @@ class TestGetGame(unittest.TestCase):
         chatId = keyConfig.get('BotAdministration', 'ADMIN_PRIVATE_CHAT_ID')
 
         getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
+
+    def test_getgame_with_back_to_bed(self):
+        requestText = u'back to bed'
+
+        keyConfig = ConfigParser.ConfigParser()
+        keyConfig.read(["keys.ini", "..\keys.ini"])
+        bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
+        chatId = keyConfig.get('BotAdministration', 'ADMIN_PRIVATE_CHAT_ID')
+
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)

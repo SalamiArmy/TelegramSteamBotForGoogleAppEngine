@@ -141,8 +141,14 @@ def steam_game_parser(code, link):
     reviewDivs = soup.findAll('div', attrs={'class':'user_reviews_summary_row'})
     if len(reviewDivs) > 0:
         for reviewRow in reviewDivs:
-            reviewSubtitleDiv = reviewRow.find('div', attrs={'class':'subtitle column'}).string
-            reviewSummaryDiv = reviewRow.find('div', attrs={'class':'summary column'}).string
+            reviewSubtitleRawDiv = reviewRow.find('div', attrs={'class':'subtitle column'})
+            reviewSubtitleDiv = ''
+            if reviewSubtitleRawDiv is not None:
+                reviewSubtitleDiv = reviewSubtitleRawDiv.string
+            reviewSummaryRawDiv = reviewRow.find('div', attrs={'class':'summary column'})
+            reviewSummaryDiv = ''
+            if reviewSummaryRawDiv is not None:
+                reviewSummaryDiv = reviewSummaryRawDiv.string
             if not reviewSummaryDiv:
                 reviewSummaryDiv = reviewRow.find('span', attrs={'class':'nonresponsive_hidden responsive_reviewdesc'}).string
             reviewSummaryDiv = reviewSummaryDiv.replace('\r', '').replace('\n', '').replace('\t', '')
