@@ -12,9 +12,9 @@ def run(bot, chat_id, user, keyConfig='', message='', totalResults=1):
 
         totalSteamGames = int(Get_steam_total())
         totalGOGGames = int(Get_GOG_total())
-        if totalSteamGames != '':
+        if totalSteamGames is not None and totalGOGGames is not None:
             bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
-                                                  ', there are ' + (totalSteamGames + totalGOGGames) +
+                                                  ', there are ' + str(int(totalSteamGames) + int(totalGOGGames)) +
                                                   ' total games on Steam and GOG combined. Pick one.')
             return True
 
@@ -125,7 +125,7 @@ def steam_game_parser(code, link):
     if AllGameDetailsFormatted:
         AllGameDetailsFormatted += link + '\n'
 
-    dateSpan = soup.find('span', attrs={'class':'date'})
+    dateSpan = soup.find('div', attrs={'class':'date'})
     if dateSpan:
         releaseDate = dateSpan.string
         AllGameDetailsFormatted += 'Release Date: ' + releaseDate + '\n'
@@ -153,9 +153,12 @@ def steam_game_parser(code, link):
                 reviewSummaryDiv = reviewRow.find('span', attrs={'class':'nonresponsive_hidden responsive_reviewdesc'}).string
             reviewSummaryDiv = reviewSummaryDiv.replace('\r', '').replace('\n', '').replace('\t', '')
             if reviewSummaryDiv != 'No user reviews':
-                reviewRows += '     ' + reviewSubtitleDiv + reviewSummaryDiv.replace('-', '').replace(' user reviews', '').replace(' of the ', ' of ') + '\n'
+                reviewRows += '     ' + reviewSubtitleDiv + \
+                              reviewSummaryDiv.replace('-', '')\
+                                  .replace(' user reviews', '')\
+                                  .replace(' of the ', ' of ') + '\n'
         if reviewRows:
-            AllGameDetailsFormatted += 'Reviews:\n' + reviewRows
+            AllGameDetailsFormatted += 'Reviews:\n' + reviewRows.replace('Recent Reviews:', '')
         if AllGameDetailsFormatted.endswith('\n'):
             AllGameDetailsFormatted = AllGameDetailsFormatted[:AllGameDetailsFormatted.rfind('\n')]
 
