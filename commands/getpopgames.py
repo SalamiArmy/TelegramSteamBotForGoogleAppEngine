@@ -6,7 +6,7 @@ import urllib
 from bs4 import BeautifulSoup
 
 
-def run(bot, chat_id, user, keyConfig='', message=''):
+def run(bot, chat_id, user, keyConfig='', message='', totalResults=1):
     gameResults = get_steamcharts_top_games()
     if gameResults:
         bot.sendMessage(chat_id=chat_id, text=gameResults,
