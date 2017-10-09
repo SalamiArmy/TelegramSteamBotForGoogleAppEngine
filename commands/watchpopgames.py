@@ -67,7 +67,7 @@ def get_added_games(chat_id, new_list, old_list):
     return added_games
 
 
-def run(bot, chat_id, user, keyConfig='', message=''):
+def run(bot, chat_id, user, keyConfig='', message='', totalResults=1):
     pop_games = get_steamcharts_top_games(2).encode('utf-8')
     if pop_games:
         setWatchValue(chat_id, pop_games)
