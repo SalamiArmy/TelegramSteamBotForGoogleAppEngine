@@ -2,7 +2,7 @@
 
 from google.appengine.ext import ndb
 
-from commands.gettopgames import get_steam_top_games
+from telegram_commands.gettopgames import get_steam_top_games
 
 watchedCommandName = 'gettopgames'.encode('utf-8')
 removed_games_title = '\n*Removed Games:*'.encode('utf-8')

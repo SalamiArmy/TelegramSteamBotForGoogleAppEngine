@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 
 def run(keyConfig='', message='', totalResults=1):
-    gameResults = get_steam_top_games().encode('utf-8')
+    gameResults = str(get_steam_top_games())
     if gameResults:
         return gameResults
     else:

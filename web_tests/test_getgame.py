@@ -4,7 +4,7 @@ import unittest
 
 import telegram
 
-import commands.getgame as getgame
+import web_commands.getgame as getgame
 
 
 class TestGetGame(unittest.TestCase):

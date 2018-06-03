@@ -6,8 +6,8 @@ from google.appengine.ext import testbed
 
 import telegram
 
-from commands.gettopgames import run
-from commands.watchtopgames import addPreviouslyAddedTitlesValue
+from web_commands.gettopgames import run
+from telegram_commands.watchtopgames import addPreviouslyAddedTitlesValue
 
 
 class TestGetGame(unittest.TestCase):

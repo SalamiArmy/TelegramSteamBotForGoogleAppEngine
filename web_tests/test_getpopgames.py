@@ -4,7 +4,7 @@ import unittest
 
 import telegram
 
-from commands.getpopgames import run
+from web_commands.getpopgames import run
 
 
 class TestGetGame(unittest.TestCase):
