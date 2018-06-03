@@ -4,7 +4,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 from google.appengine.ext import ndb
-from commands.getpopgames import get_steamcharts_top_games
+from telegram_commands.getpopgames import get_steamcharts_top_games
 
 watchedCommandName = 'getpopgames'
 removed_games_title = '\n*Removed Games:*'
