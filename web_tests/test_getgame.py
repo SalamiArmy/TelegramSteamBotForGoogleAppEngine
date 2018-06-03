@@ -8,15 +8,15 @@ import commands.getgame as getgame
 
 
 class TestGetGame(unittest.TestCase):
-    def test_getgame_with_suerhot(self):
-        requestText = 'SUPERHOT'
+    def test_getgame_with_superhot(self):
+        requestText = 'The Elder Scrolls Online: Tamriel Unlimited'
 
         keyConfig = ConfigParser.ConfigParser()
         keyConfig.read(["keys.ini", "..\keys.ini"])
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_PRIVATE_CHAT_ID')
 
-        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
+        getgame.run(bot, -55348600, 'Admin', keyConfig, requestText)
 
     def test_getgame_with_vrregatta(self):
         requestText = 'VR Regatta'

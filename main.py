@@ -10,7 +10,7 @@ import sys
 
 import urllib2
 import telegram
-import commands.getgame as getgame
+import telegram_commands.getgame as getgame
 
 # standard app engine imports
 from google.appengine.api import urlfetch
@@ -18,12 +18,12 @@ from google.appengine.ext import ndb
 
 import webapp2
 
-from commands import gettopgames
-from commands import getpopgames
-from commands import watchtopgames
-from commands import watchpopgames
-from commands import unwatchtopgames
-from commands import unwatchpopgames
+from telegram_commands import gettopgames
+from telegram_commands import getpopgames
+from telegram_commands import watchtopgames
+from telegram_commands import watchpopgames
+from telegram_commands import unwatchtopgames
+from telegram_commands import unwatchpopgames
 
 BASE_URL = 'https://api.telegram.org/bot'
 
@@ -204,7 +204,7 @@ class TriggerAllWatches(webapp2.RequestHandler):
                 split = watch.split(':')
                 if len(split) >= 2:
                     print('executing command: ' + split[1].replace('get', ''))
-                    mod = importlib.import_module('commands.watch' + split[1].replace('get', ''))
+                    mod = importlib.import_module('telegram_commands.watch' + split[1].replace('get', ''))
                     chat_id = split[0]
                     mod.run(bot, str(chat_id), 'Watcher')
                 else:

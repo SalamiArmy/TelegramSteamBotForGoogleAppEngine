@@ -6,17 +6,15 @@ import urllib2
 from bs4 import BeautifulSoup
 
 
-def run(bot, chat_id, user, keyConfig='', message='', totalResults=1):
+def run(keyConfig='', message='', totalResults=1):
     requestText = str(message)
     if requestText == '':
 
         totalSteamGames = int(Get_steam_total())
         totalGOGGames = int(Get_GOG_total())
         if totalSteamGames is not None and totalGOGGames is not None:
-            bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
-                                                  ', there are ' + str(int(totalSteamGames) + int(totalGOGGames)) +
-                                                  ' total games on Steam and GOG combined. Pick one.')
-            return True
+            return 'I\'m sorry Dave, there are ' + str(int(totalSteamGames) + int(totalGOGGames)) +\
+                                                  ' total games on Steam and GOG combined. Pick one.'
 
     retryCount = 3
     appId = ''
@@ -36,14 +34,9 @@ def run(bot, chat_id, user, keyConfig='', message='', totalResults=1):
         code = bypassAgeGate.open(steamGameLink).read()
         if 'id=\"agegate_box\"' in code:
             gameTitle = steam_age_gate_parser(code)
-            bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
-                                              ', I\'m afraid that \"' + gameTitle + '\" is protected by an age gate.')
-            return False
+            return 'I\'m sorry Dave, I\'m afraid that \"' + gameTitle + '\" is protected by an age gate.'
 
-        gameResults = steam_game_parser(code, steamGameLink)
-        bot.sendMessage(chat_id=chat_id, text=gameResults,
-                        disable_web_page_preview=True, parse_mode='Markdown')
-        return True
+        return steam_game_parser(code, steamGameLink)
     else:
         gogSearchData = json.load(urllib.urlopen('http://embed.gog.com/games/ajax/filtered?mediaType=game&search=' + requestText))
         appId, price, discount = gog_results_parser(gogSearchData)
@@ -51,12 +44,9 @@ def run(bot, chat_id, user, keyConfig='', message='', totalResults=1):
             gogGameLink = 'http://api.gog.com/products/' + str(appId) + '?expand=downloads,expanded_dlcs,description,screenshots,videos,related_products,changelog'
             data = json.load(urllib.urlopen(gogGameLink))
             gameResults = gog_game_parser(data, price, discount)
-            bot.sendMessage(chat_id=chat_id, text=gameResults,
-                            disable_web_page_preview=True, parse_mode='Markdown')
+            return gameResults
         else:
-            bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
-                                                  ', I\'m afraid I can\'t find the game ' + \
-                                                  requestText.encode('utf-8'))
+            return 'I\'m sorry Dave, I\'m afraid I can\'t find the game ' + str(requestText)
 
 
 def steam_results_parser(rawMarkup):

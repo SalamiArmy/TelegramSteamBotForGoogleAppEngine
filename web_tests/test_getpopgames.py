@@ -1,4 +1,4 @@
-
+# coding=utf-8
 import ConfigParser
 import unittest
 
@@ -8,7 +8,7 @@ from commands.getpopgames import run
 
 
 class TestGetGame(unittest.TestCase):
-    def test_getgame(self):
+    def test_getpopgames(self):
         keyConfig = ConfigParser.ConfigParser()
         keyConfig.read(["keys.ini", "..\keys.ini"])
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
