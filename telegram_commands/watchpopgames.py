@@ -1,4 +1,5 @@
 # coding=utf-8
+import main
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -101,7 +102,6 @@ def run(bot, chat_id, user, keyConfig='', message='', totalResults=1):
 
 
 def unwatch(bot, chat_id):
-    import main
     watches = main.getAllWatches()
     if ',' + str(chat_id) + ':' + watchedCommandName + ',' in watches or ',' + str(chat_id) + ':' + watchedCommandName in watches:
         main.removeFromAllWatches(str(chat_id) + ':' + watchedCommandName)

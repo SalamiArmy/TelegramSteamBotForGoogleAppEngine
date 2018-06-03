@@ -1,4 +1,5 @@
 # coding=utf-8
+import main
 
 from google.appengine.ext import ndb
 
