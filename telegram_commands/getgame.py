@@ -134,7 +134,8 @@ def steam_game_parser(code, link):
     featureLinks = soup.findAll('a', attrs={'class':'name'})
     if len(featureLinks) > 0:
         for featureLink in featureLinks:
-            featureList += '     ' + featureLink.string.replace('Seated', 'Seated VR') + '\n'
+            if featureLink.string != None:
+                featureList += '     ' + featureLink.string.replace('Seated', 'Seated VR') + '\n'
         AllGameDetailsFormatted += 'Features:\n' + featureList
 
     reviewRows = ''
