@@ -45,8 +45,7 @@ def run(bot, chat_id, user, keyConfig='', message='', totalResults=1):
             bot.sendMessage(chat_id=chat_id, text=gameResults,
                             disable_web_page_preview=True, parse_mode='Markdown')
         except:
-            bot.sendMessage(chat_id=chat_id, text=gameResults,
-                            disable_web_page_preview=True)
+            bot.sendMessage(chat_id=chat_id, text=gameResults)
         return True
     else:
         gogSearchData = json.load(urllib.urlopen('http://embed.gog.com/games/ajax/filtered?mediaType=game&search=' + requestText))
