@@ -4,11 +4,11 @@ import unittest
 
 import telegram
 
-import commands.getgame as getgame
+import telegram_commands.getgame as getgame
 
 
 class TestGetGame(unittest.TestCase):
-    def test_getgame_with_superhot(self):
+    def test_getgame_with_elderscollsonline(self):
         requestText = 'The Elder Scrolls Online: Tamriel Unlimited'
 
         keyConfig = ConfigParser.ConfigParser()
@@ -16,7 +16,7 @@ class TestGetGame(unittest.TestCase):
         bot = telegram.Bot(keyConfig.get('Telegram', 'TELE_BOT_ID'))
         chatId = keyConfig.get('BotAdministration', 'ADMIN_PRIVATE_CHAT_ID')
 
-        getgame.run(bot, -55348600, 'Admin', keyConfig, requestText)
+        getgame.run(bot, chatId, 'Admin', keyConfig, requestText)
 
     def test_getgame_with_vrregatta(self):
         requestText = 'VR Regatta'

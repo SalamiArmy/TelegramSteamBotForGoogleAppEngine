@@ -41,8 +41,12 @@ def run(bot, chat_id, user, keyConfig='', message='', totalResults=1):
             return False
 
         gameResults = steam_game_parser(code, steamGameLink)
-        bot.sendMessage(chat_id=chat_id, text=gameResults,
-                        disable_web_page_preview=True, parse_mode='Markdown')
+        try:
+            bot.sendMessage(chat_id=chat_id, text=gameResults,
+                            disable_web_page_preview=True, parse_mode='Markdown')
+        except:
+            bot.sendMessage(chat_id=chat_id, text=gameResults,
+                            disable_web_page_preview=True)
         return True
     else:
         gogSearchData = json.load(urllib.urlopen('http://embed.gog.com/games/ajax/filtered?mediaType=game&search=' + requestText))
@@ -100,7 +104,7 @@ def steam_game_parser(code, link):
         gameTitle = titleDiv.string
         AllGameDetailsFormatted += '*' + gameTitle
     else:
-        raise Exception('Cannot parse title from Steam page for this game.')
+        print('Cannot parse title as div with class apphub_AppName from Steam page for ' + link)
 
     priceDiv = soup.find('div', attrs={'class':'game_purchase_price price'})
     if priceDiv:
