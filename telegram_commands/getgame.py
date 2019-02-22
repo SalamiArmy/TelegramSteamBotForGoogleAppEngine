@@ -34,10 +34,11 @@ def run(bot, chat_id, user, keyConfig='', message='', totalResults=1):
         #this bypasses the "enter your date of birth" screen
         bypassAgeGate.addheaders.append(('Cookie', 'birthtime=0; path=/; max-age=31536000;expires=Fri, 26 Mar 2027 20:00:00 GMT'))
         code = bypassAgeGate.open(steamGameLink).read()
-        if 'id=\"agegate_box\"' in code:
+        if 'id=\"agegate_wizard\"' in code:
             gameTitle = steam_age_gate_parser(code)
             bot.sendMessage(chat_id=chat_id, text='I\'m sorry ' + (user if not user == '' else 'Dave') + \
-                                              ', I\'m afraid that \"' + gameTitle + '\" is protected by an age gate.')
+                                              ', I\'m afraid that \"' + gameTitle + '\" is protected by an age gate.\n' +
+                            steamGameLink)
             return False
 
         gameResults = steam_game_parser(code, steamGameLink)
@@ -102,23 +103,23 @@ def steam_game_parser(code, link):
     if titleDiv:
         gameTitle = titleDiv.string
         AllGameDetailsFormatted += '*' + gameTitle
-    else:
-        print('Cannot parse title as div with class apphub_AppName from Steam page for ' + link)
 
-    priceDiv = soup.find('div', attrs={'class':'game_purchase_price price'})
-    if priceDiv:
-        gamePrice = priceDiv.string
-        AllGameDetailsFormatted += ' - ' + gamePrice.strip()
-    else:
-        priceDiv = soup.find('div', attrs={'class':'discount_final_price'})
+        priceDiv = soup.find('div', attrs={'class':'game_purchase_price price'})
         if priceDiv:
             gamePrice = priceDiv.string
             AllGameDetailsFormatted += ' - ' + gamePrice.strip()
-            discountPercentageDiv = soup.find('div', attrs={'class':'discount_pct'})
-            if discountPercentageDiv:
-                percentageDiscountedBy = discountPercentageDiv.string
-                AllGameDetailsFormatted += ' (at ' + percentageDiscountedBy.strip() + ' off)'
-    AllGameDetailsFormatted += '*\n'
+        else:
+            priceDiv = soup.find('div', attrs={'class':'discount_final_price'})
+            if priceDiv:
+                gamePrice = priceDiv.string
+                AllGameDetailsFormatted += ' - ' + gamePrice.strip()
+                discountPercentageDiv = soup.find('div', attrs={'class':'discount_pct'})
+                if discountPercentageDiv:
+                    percentageDiscountedBy = discountPercentageDiv.string
+                    AllGameDetailsFormatted += ' (at ' + percentageDiscountedBy.strip() + ' off)'
+        AllGameDetailsFormatted += '*\n'
+    else:
+        print('Cannot parse title as div with class apphub_AppName from Steam page for ' + link)
 
     descriptionDiv = soup.find('div', attrs={'class':'game_description_snippet'})
     if descriptionDiv:
