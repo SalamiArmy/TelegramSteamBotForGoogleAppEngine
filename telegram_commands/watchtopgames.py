@@ -5,12 +5,6 @@ from google.appengine.ext import ndb
 
 from telegram_commands.gettopgames import get_steam_top_games
 
-watchedCommandName = 'gettopgames'.encode('utf-8')
-removed_games_title = '\n*Removed Games:*'.encode('utf-8')
-added_games_title = '\n*New Games:*'.encode('utf-8')
-newly_added_games_title = '\n(beta)*New New Games:*'.encode('utf-8')
-
-
 class WatchValue(ndb.Model):
     # key name: str(chat_id)
     currentValue = ndb.StringProperty(indexed=False, default='')
@@ -86,14 +80,12 @@ def run(bot, chat_id, user, keyConfig='', message=''):
                                     parse_mode='Markdown')
             else:
                 games_added, games_removed, newly_added_games = get_add_removed_games(chat_id, top_games, OldValue)
-                message_text = 'Watch for /' + watchedCommandName + ' has changed' + (' order.' if (
-                games_added == added_games_title and games_removed == removed_games_title) else '.') + '\n' + top_games + (
-                        '\n' + games_added if games_added != added_games_title else '') + (
-                        '\n' + games_removed if games_removed != removed_games_title else '') + (
-                        '\n' + newly_added_games if newly_added_games != newly_added_games_title else '')
-                bot.sendMessage(chat_id=chat_id,
-                                text=message_text,
-                                parse_mode='Markdown')
+                if newly_added_games != newly_added_games_title:
+                    bot.sendMessage(chat_id=chat_id,
+                                    text='Watch for /' + watchedCommandName + ' has changed\n' + 
+                                    '*New Top Selling Steam Games:*\n' + 
+                                    newly_added_games,
+                                    parse_mode='Markdown')
         else:
             if user != 'Watcher':
                 bot.sendMessage(chat_id=chat_id,
