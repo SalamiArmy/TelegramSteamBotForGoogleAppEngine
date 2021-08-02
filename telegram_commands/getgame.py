@@ -155,7 +155,9 @@ def steam_game_parser(code, link):
             if reviewSummaryRawDiv is not None:
                 reviewSummaryDiv = reviewSummaryRawDiv.string
             if not reviewSummaryDiv:
-                reviewSummaryDiv = reviewRow.find('span', attrs={'class':'nonresponsive_hidden responsive_reviewdesc'}).string
+                findReviewSummaryDiv = reviewRow.find('span', attrs={'class':'game_review_summary'})
+                if findReviewSummaryDiv:
+                    reviewSummaryDiv = findReviewSummaryDiv.string
             reviewSummaryDiv = reviewSummaryDiv.replace('\r', '').replace('\n', '').replace('\t', '')
             if reviewSummaryDiv != 'No user reviews':
                 reviewRows += '     ' + reviewSubtitleDiv + \
